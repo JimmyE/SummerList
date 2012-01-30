@@ -3,8 +3,9 @@ require "sinatra/base"
 module Sinatra
 	module Logging
 		def logger
-			@logger ||= Logger.new("log/#{ENV["RACK_ENV"]}.log")
-			@logger
+			#@logger ||= Logger.new("log/#{ENV["RACK_ENV"]}.log")
+			#@logger  
+		  @logger = nil
 		end
 
 		def info(mssg)
@@ -18,7 +19,7 @@ module Sinatra
 		end
 
 		def self.registered(app)
-			app.helpers Logging
+			#app.helpers Logging
 		end
 	end
 end
