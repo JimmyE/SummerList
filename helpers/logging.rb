@@ -8,13 +8,13 @@ module Sinatra
 		end
 
 		def info(mssg)
-			logger.info("INFO: #{Time.now} - #{mssg}")
+			#logger.info("INFO: #{Time.now} - #{mssg}")
 		end
 		def warn!(mssg)
-			logger.info("WARN: #{Time.now} - #{mssg}")
+			#logger.info("WARN: #{Time.now} - #{mssg}")
 		end
 		def error!(mssg)
-			logger.info("ERROR: #{Time.now} - #{mssg}")
+			#logger.info("ERROR: #{Time.now} - #{mssg}")
 		end
 
 		def self.registered(app)
