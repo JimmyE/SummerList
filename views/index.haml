@@ -1,0 +1,10 @@
+- content_for :header do
+  %script{ :src =>"/scripts/quickie.js", :type => "text/javascript"}
+  
+.tagarea
+  - @tags.each do |g|
+    .tagx{ :id => "#{g.Name}" }
+      .tagtitle
+        #{g.Name}
+  #bmarea
+    .bmlist

@@ -1,0 +1,138 @@
+﻿
+body  { font: 12px/1.5em Helvetica, Arial,Sans-serif; color: #555; background-color: #efefef; }
+
+h1, h2, h3, h4, h5, h6  { margin: 0; color: #333; }
+h1  {font-size: 2em } h2  {font-size: 1.8em;} h3  {font-size: 1.6em;} h4  {font-size: 1.2em;} h5  {font-size: 1em;} h6  {font-size: 0.8em;}
+
+p { margin: 0; }
+
+hr { background-color: #e6e6e6;	border:0; height: 1px; margin-bottom: 20px; }
+
+input, textarea { padding: 7px 0 7px 7px; border-color: #ccc #efefef #efefef #ccc; border-width:1px; border-style:solid;}
+
+/* 1.2 Hyperlinks */
+
+a:link, a:visited  { color: #000; text-decoration:none;}
+a:hover {text-decoration:underline;}
+
+h1 a:link, h1 a:visited, h2 a:link, h2 a:visited, h3 a:link, h3 a:visited,
+h4 a:link, h4 a:visited, h5 a:link, h5 a:visited, h6 a:link, h6 a:visited  { text-decoration: none; }
+h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover  {text-decoration: underline;}
+
+/* 2.1 Containers & Columns */
+#wrapper  { }
+
+#main{width:940px;}
+#main.col-left{width:760px;}
+
+#header  { margin: 0 0 50px; background: #333333 url(themes/skeptical/images/bg-header.png) repeat-x left top; clear:both;position:relative;}
+.col-left { float: left; }
+.col-right { float: right; }
+.col-full  { width: 940px; margin: 0 auto; }
+
+#content{padding:0 0 40px;}
+
+#navigation  { float: right; }
+
+.nav { z-index:99; margin:0; padding:0; list-style:none; line-height:1; }
+.nav a:link, .nav a:visited  { position:relative; color:#fff; display:block; z-index:100; margin: 0 1px 0 0; padding:8px 17px; line-height:42px !important; font-size: 15px; font-weight: bold; text-decoration:none; text-shadow:2px 1px 0 rgba(0,0,0,0.4); }
+.nav a:hover, 
+.nav li.current_page_item a:link, .nav li.current_page_item a:visited, 
+.nav li.current_page_parent a:link, .nav li.current_page_parent a:visited,
+.nav li.current-menu-ancestor a:link, .nav li.current-menu-ancestor a:visited { background: #9bc4ce url(themes/skeptical/images/bg-nav.png) repeat-x left top; }
+.nav li  { float:left; width: auto; }
+.nav li a.sf-with-ul { padding-right:20px; }
+
+.post  { margin: 0 0 40px;}
+.post .middle  { width: 479px; margin: 0 20px 0 0; padding: 20px 20px 0; background: #fff; border-right: 1px solid #e3e3e3; border-bottom: 1px solid #e3e3e3; }
+.fullwidth .post.page  { width: 899px; }
+.post.page  { width: 750px; padding: 20px 20px 0; background: #fff; border-right: 1px solid #e3e3e3; border-bottom: 1px solid #e3e3e3;overflow: scroll;height: 500px;}
+.post .title  { font:normal bold 30px/24px Arial, Helvetica, sans-serif;position:relative; margin: 0 0 20px; }
+.page .post .title  { margin: 0 0 20px 0; }
+.post .title a:link, .post .title a:visited  { color:#000; }
+.post .title a:hover  { text-decoration: none; color: #000; }
+.post .main-image  { margin: 0 0 20px -20px; }
+
+
+/* From reset.css */
+/* Clear Floats */
+.col-full:after{content: "."; display: block;height: 0;clear: both; visibility: hidden;}
+
+/* body, html  { height: 100%; } */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+/*	background: transparent; */
+  font-family: ‘Palatino Linotype’, ‘Book Antiqua’, Palatino, serif;
+}
+
+/*   My STuff */
+body {
+  width: 90%;
+  max-width: 970px;
+}
+
+div.pageHeader{
+  margin: 20px 0 0 0;
+}
+div.pageHeader h1 {
+  text-align: center;
+}
+
+div.tagarea {
+  margin: 25px 50px 25px 50px;
+}
+div.tagx {
+  float:left;
+  width: 200px;
+  height: 200px;
+  border: 1px solid;
+  color: black;
+  font-size: 100%;
+  margin: 5px;
+}
+
+div.tagx div.tagtitle {
+  color: red;
+  text-align: center;
+  color: #333333;
+  font-size: large;
+  margin-top: 5px;
+}
+
+div#bmarea {
+  width: 75%;
+  height: 50%;
+  border: 3px solid;
+  background-color: gray;
+  color: white;
+  overflow: auto;
+}
+
+div#bmarea {
+  display: none;
+}
+div#bmarea ul {
+  list-style: none;
+}
+div#bmarea li {
+  margin: 5px 0 5px 5px;
+}
+
+div#bmarea a:link, a:visited {
+  color: white;
+  text-decoration: none;
+}
+
