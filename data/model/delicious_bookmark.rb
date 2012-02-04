@@ -5,6 +5,11 @@ class DeliciousBookmark
   attr_accessor :DateAdded
   attr_accessor :TagList
 
+  def initialize( description = "", url = "")
+	@Description = description
+	@Url = url
+  end
+
   def to_json(*a)
 	{
 	  #'json_class' => self.class.name,
@@ -13,8 +18,4 @@ class DeliciousBookmark
 	  'u' => @Url
 	}.to_json(*a)
   end
-
-#  def to_s
-#	"#{@Description} - #{@Url}"
-#  end
 end

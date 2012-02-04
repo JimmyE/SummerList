@@ -2,21 +2,24 @@ require "rubygems"
 require "sinatra/base"
 require "sinatra/content_for"
 require "sinatra/json"
+require "padrino-core/application/routing"
+
 #require "json"
 require "./data/repo/delicious_repo"
 require "./data/model/delicious_tag"
 require "./data/model/delicious_bookmark"
-require "./helpers/logging"
+require "./lib/logging"
 
 class QuickieApp < Sinatra::Base
+  register Sinatra::Logging
+  register Padrino::Routing
   helpers Sinatra::ContentFor
   helpers Sinatra::JSON
-  register Sinatra::Logging
 
   set :public_folder, Proc.new { File.join(Dir.pwd, "public") }
   set :views,  Proc.new { File.join(Dir.pwd, "views") }
 
-  get "/" do
+  get :index do
 	logger.info("Get tags")
 	repo = DeliciousRepo.new
 
@@ -27,12 +30,14 @@ class QuickieApp < Sinatra::Base
     haml :index
   end
 
-  post "/getBookmarks" do
+  #post "/getBookmarks" do
+  post :bookmarks, :map => "getBookmarks" do
 	content_type :json
 
 	logger.info("Get Bookmarks for: " + params['tag'])
 	repo = DeliciousRepo.new
 	bookmarkList = repo.GetBookmarks("jecker88", params['tag'])
+	logger.info("GetBookmarks returned")
 
 	bookmarkList.each do |bm|
 	  logger.info(" bookmark: #{bm.Description}  #{bm.Url}")

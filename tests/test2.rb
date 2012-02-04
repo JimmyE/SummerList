@@ -1,8 +1,12 @@
+require 'rubygems'
+require 'sinatra'
+require 'sinatra/base'
 require 'json'
-require '../data/model/delicious_tag'
-require '../data/model/delicious_bookmark'
-require '../data/repo/delicious_repo'
+require './data/model/delicious_tag'
+require './data/model/delicious_bookmark'
+require './data/repo/delicious_repo'
 
+#  *** run from base directory:  ruby test/test2.rb
 
 repo = DeliciousRepo.new
 

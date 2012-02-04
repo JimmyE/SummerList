@@ -1,106 +1,76 @@
+require "sinatra"
 require "sinatra/base"
 require 'net/https'
 require 'json'
-#require "./helpers/logging"
+require "./lib/logging"
 
 class DeliciousRepo 
-  #register Sinatra::Logging
+
+  def initialize
+	# todo: make myLogger a static? property
+	@myLogger = Sinatra::Logging::XLogger.new
+  end
 
   def GetTags(deliciousUser)
 	results = Array.new
-	resp = href = "";
-	#http = Net::HTTP.new("api.del.icio.us", 443)
-	http = Net::HTTP.new("feeds.delicious.com", 80)
-	#http.use_ssl = true
+	url = "/v2/json/tags/#{deliciousUser}?count=100"
+	response = GetDeliciousResponse(url)
 
-	http.start do |http|
-	  #req = Net::HTTP::Get.new("/v1/tags/get", {"User-Agent" => "juretta.com RubyLicious 0.2"})
-	  req = Net::HTTP::Get.new("/v2/json/tags/#{deliciousUser}?count=100", 
-							 {"User-Agent" => "juretta.com RubyLicious 0.2"})
-	  #req.basic_auth(username, password)
-	  response = http.request(req)
-	  #puts "Response code = #{response.code}"
+	buffer = JSON.load response.body
 
-	  if response.code != "200"
-		#logger.error!("Request failed. responseCode #{response.code}")
-		puts "Request failed. responseCode #{response.code}"
-	  else
-		#puts response.body
-		buffer = JSON.load response.body
+	# TODO ** check return code for error
+	#if response.body.key?("code")
+	  #logger.error!("Request failed. " + buffer.to_s)
+	#end
 
-		# TODO ** check return code for error
-		#puts buffer
-		#puts buffer[0]
-		#puts buffer[0].key?("code")
-		#if response.body.key?("code")
-		  #logger.error!("Request failed. " + buffer.to_s)
-		#end
-
-		buffer.each do |name, cnt|
-		 tag = DeliciousTag.new
-		  tag.Name = name
-		  tag.Count = cnt
-
-		  #puts tag.to_s
-		  results.push(tag)
-		end  # end 'do'
-	  end  #end 'else'
-	end  #end 'do' http.start
+	buffer.each do |name, cnt|
+	 results.push(DeliciousTag.new name, cnt)
+	end
 
 	results
   end
 
   def GetBookmarks(deliciousUser, tagName)
-	resp = href = "";
+	results = Array.new
+
+	url = "/v2/json/#{deliciousUser}/#{tagName}?count=100" 
+
+	response = GetDeliciousResponse(url)
+
+	buffer = JSON.load response.body
+	if buffer == nil
+	  @myLogger.error "json buffer is null"
+	  return
+	end
+
+	buffer.each do |foo|
+	  @myLogger.info "Create new bookmark for " + foo["u"]
+	  results.push(DeliciousBookmark.new foo["d"], foo["u"] )
+	end # end buffer.each
+
+	@myLogger.info "GetBookmarks done"
+	results
+  end
+
+  def GetDeliciousResponse(url)
+	response = "";
 	#http = Net::HTTP.new("api.del.icio.us", 443)
 	http = Net::HTTP.new("feeds.delicious.com", 80)
 	#http.use_ssl = true
 	#http://feeds.delicious.com/v2/json/jecker88/programming?count=100
 
-	results = Array.new
-
 	http.start do |http|
-	  #req = Net::HTTP::Get.new("/v1/tags/get", {"User-Agent" => "juretta.com RubyLicious 0.2"})
-	  url = "/v2/json/#{deliciousUser}/#{tagName}?count=100" 
-	  #puts "url: " + url
-	  #req = Net::HTTP::Get.new("/v2/json/#{deliciousUser}/#{tagName}?count=100", 
 	  req = Net::HTTP::Get.new(url,
 							 {"User-Agent" => "juretta.com RubyLicious 0.2"})
 	  #req.basic_auth(username, password)
 	  response = http.request(req)
-	  #puts "Response code = #{response.code}"
 
 	  if response.code != "200"
-		#logger.error!("Request failed. responseCode #{response.code}")
-		puts "Request failed. responseCode #{response.code}"
-		puts req.to_s
-	  else
-		buffer = JSON.load response.body
-		#logger.info buffer.to_s
-		#puts buffer.to_s
-		if buffer == nil
-		  puts "Buffer json is null"
-		  return
-		end
-		#buffer.each do |a, d, n, u, t, dt|
-		buffer.each do |foo|
-		  if foo == nil
-			puts "url is NULL???  a = " + a.to_s
-		  else
-			puts "Create new bookmark for " + foo["u"]
-			tag = DeliciousBookmark.new
-			tag.Description = foo["d"]
-			tag.Url = foo["u"]
-
-		    results.push(tag)
-		  end
-		end # end buffer.each
-		#puts "buffer.each done"
-	  end #if repsonse is 200
+		@myLogger.error("Request failed. responseCode #{response.code}  response: " + req.to_s)
+		raise "Unable to get Delicious server"
+	  end
 	end #end http-start
-	puts "GetBookmarks done"
-	results
+	response
   end
-
 end
 
