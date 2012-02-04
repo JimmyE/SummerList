@@ -3,7 +3,8 @@ require "sinatra/base"
 module Sinatra
 	module Logging
 		def logger
-			@logger ||= Logger.new("log/#{ENV["RACK_ENV"]}.log")
+			#@logger ||= Logger.new("log/#{ENV["RACK_ENV"]}.log")
+			@logger ||= Logger.new(STDOUT)
 			@logger  
 		end
 
@@ -23,12 +24,17 @@ module Sinatra
 
 	  class XLogger
 		def info msg
-		  @xlog ||= Logger.new("log/#{ENV["RACK_ENV"]}.log")
+		  @xlog ||= createLogger
 		  @xlog.info(msg)
 		end
 		def error msg
-		  @xlog ||= Logger.new("log/#{ENV["RACK_ENV"]}.log")
+		  @xlog ||= createLogger
 		  @xlog.error!(msg)
+		end
+
+		def createLogger
+		  #Logger.new("log/#{ENV["RACK_ENV"]}.log")
+		  Logger.new(STDOUT)
 		end
 	  end
 	end #module

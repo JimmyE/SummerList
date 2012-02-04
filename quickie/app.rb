@@ -19,6 +19,11 @@ class QuickieApp < Sinatra::Base
   set :public_folder, Proc.new { File.join(Dir.pwd, "public") }
   set :views,  Proc.new { File.join(Dir.pwd, "views") }
 
+  configure :development do
+	puts "disable dev logging"
+	disable :logging
+  end
+
   get :index do
 	logger.info("Get tags")
 	repo = DeliciousRepo.new
