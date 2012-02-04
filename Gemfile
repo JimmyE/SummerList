@@ -1,4 +1,4 @@
-gem 'source :rubygems
+source :rubygems
 gem 'activesupport', '3.1.3'
 gem 'backports', '2.3.0'
 gem 'bundler', '1.0.21'
