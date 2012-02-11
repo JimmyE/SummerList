@@ -1,10 +1,15 @@
-require "rubygems"
+require 'rubygems'
+require 'mongo_mapper'
 
 class DeliciousTag
-  attr_accessor :Name
-  attr_accessor :Count
+  include MongoMapper::Document
 
-  def initialize(name = "", count = "")
+  key :Username, String
+  key :Name, String
+  key :Count, String
+
+  def initialize(user = "", name = "", count = "")
+	@Username = user
 	@Name = name
 	@Count = count
   end

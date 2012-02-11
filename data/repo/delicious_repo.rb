@@ -6,50 +6,75 @@ require "./lib/logging"
 
 class DeliciousRepo 
 
-  def initialize
+  def initialize(useCacheDB)
 	# todo: make myLogger a static? property
 	@myLogger = Sinatra::Logging::XLogger.new
+	@useDatabase = useCacheDB
   end
 
   def GetTags(deliciousUser)
 	results = Array.new
-	url = "/v2/json/tags/#{deliciousUser}?count=100"
-	response = GetDeliciousResponse(url)
 
-	buffer = JSON.load response.body
+	tags = DeliciousTag.all(:Username => deliciousUser) if @useDatabase
+	if tags != nil && tags.count > 0
+	  @myLogger.info  "Got tags from database"
+	  tags
+	else
+	  @myLogger.info  "Call delicious web api"
+	  url = "/v2/json/tags/#{deliciousUser}?count=100"
+	  response = GetDeliciousResponse(url)
 
-	# TODO ** check return code for error
-	#if response.body.key?("code")
-	  #logger.error!("Request failed. " + buffer.to_s)
-	#end
+	  buffer = JSON.load response.body
 
-	buffer.each do |name, cnt|
-	 results.push(DeliciousTag.new name, cnt)
+	  # TODO ** check return code for error
+	  #if response.body.key?("code")
+		#logger.error!("Request failed. " + buffer.to_s)
+	  #end
+
+	  ## ** TODO delete by username
+	  DeliciousTag.delete_all if @useDatabase
+	  buffer.each do |name, cnt|
+		#results.push(DeliciousTag.new deliciousUser, name, cnt)
+		tag = DeliciousTag.new deliciousUser, name, cnt
+		tag.save if @useDatabase
+		results.push tag
+	  end
+
+	  results
 	end
-
-	results
   end
 
   def GetBookmarks(deliciousUser, tagName)
 	results = Array.new
 
-	url = "/v2/json/#{deliciousUser}/#{tagName}?count=100" 
+	bookmarks = DeliciousBookmark.all(:Username => deliciousUser, :ParentTag => tagName) if @useDatabase
+	if bookmarks != nil && bookmarks.count > 0
+	  @myLogger.info("return bookmarks for #{tagName} from database")
+	  bookmarks
+	else
+	  @myLogger.info("send webrequest for bookmarks for #{tagName} ")
+	  url = "/v2/json/#{deliciousUser}/#{tagName}?count=100" 
 
-	response = GetDeliciousResponse(url)
+	  response = GetDeliciousResponse(url)
 
-	buffer = JSON.load response.body
-	if buffer == nil
-	  @myLogger.error "json buffer is null"
-	  return
+	  buffer = JSON.load response.body
+	  if buffer == nil
+	   @myLogger.error "json buffer is null"
+	   return
+	  end
+
+	  DeliciousBookmark.delete_all(:Username => deliciousUser, :ParentTag => tagName) if @useDatabase
+	  buffer.each do |foo|
+		@myLogger.info "Create new bookmark for " + foo["u"] + "  tag: " + tagName
+		#results.push(DeliciousBookmark.new foo["d"], foo["u"] )
+		bookmark = DeliciousBookmark.new deliciousUser, tagName, foo["d"], foo["u"]
+		bookmark.save if @useDatabase
+		results.push bookmark
+	  end # end buffer.each
+
+	  @myLogger.info "GetBookmarks done"
+	  results
 	end
-
-	buffer.each do |foo|
-	  @myLogger.info "Create new bookmark for " + foo["u"]
-	  results.push(DeliciousBookmark.new foo["d"], foo["u"] )
-	end # end buffer.each
-
-	@myLogger.info "GetBookmarks done"
-	results
   end
 
   def GetDeliciousResponse(url)

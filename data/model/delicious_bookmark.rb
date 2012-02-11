@@ -1,21 +1,19 @@
+require 'mongo_mapper'
 
 class DeliciousBookmark
-  attr_accessor :Description
-  attr_accessor :Url
-  attr_accessor :DateAdded
-  attr_accessor :TagList
+  include MongoMapper::Document
 
-  def initialize( description = "", url = "")
+  key :Username
+  key :ParentTag
+  key :Description
+  key :Url
+  key :DateAdded
+  key :TagList
+
+  def initialize(user = "", tag = "", description = "", url = "")
+	@Username = user
+	@ParentTag = tag
 	@Description = description
 	@Url = url
-  end
-
-  def to_json(*a)
-	{
-	  #'json_class' => self.class.name,
-	  #'data' => [@Description, @Url]
-	  'd' => @Description,
-	  'u' => @Url
-	}.to_json(*a)
   end
 end

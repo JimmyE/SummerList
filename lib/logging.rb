@@ -3,6 +3,7 @@ require "sinatra/base"
 module Sinatra
 	module Logging
 		def logger
+		  #puts "create logger" unless @logger
 			#@logger ||= Logger.new("log/#{ENV["RACK_ENV"]}.log")
 			@logger ||= Logger.new(STDOUT)
 			@logger  
@@ -25,11 +26,11 @@ module Sinatra
 	  class XLogger
 		def info msg
 		  @xlog ||= createLogger
-		  @xlog.info(msg)
+		  #@xlog.info(msg)
 		end
 		def error msg
 		  @xlog ||= createLogger
-		  @xlog.error!(msg)
+		  #@xlog.error!(msg)
 		end
 
 		def createLogger
