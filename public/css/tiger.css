@@ -116,7 +116,6 @@ div.tagx {
   box-shadow:         -5px -5px 5px #ccc;
 }
 div.tagx:hover {
-  /* background-color: DarkBlue; */
   background-color: #8664D6;
 }
 div.tagx.expanded:hover {
@@ -157,25 +156,13 @@ div.tagx {
 	-moz-transition:all 2s ease-in-out;		
 	-moz-perspective: 800;
 	-moz-perspective-origin: 50% 100px;	
-  /*
 	-webkit-transition:all 2s ease-in-out;		
 	-webkit-perspective: 800;
 	-webkit-perspective-origin: 50% 100px;	
 	-o-transition:all 2s ease-in-out;		
 	-o-perspective: 800;
 	-o-perspective-origin: 50% 100px;	
-	*/
 }
-div.tagx-old-old:hover {
-  background-color: red;
-  width:400px;
-  height:300px;
-	-moz-transform:rotateX(180deg);
-	/*
-	-webkit-transform:rotateX(180deg);
-	-o-transform:rotateX(180deg);
-	*/
- }
 
 div.fooarea ul {
   list-style: none;
