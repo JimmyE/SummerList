@@ -1,11 +1,11 @@
 - content_for :header do
   %script{ :src =>"/scripts/quickie.js", :type => "text/javascript"}
   
-.tagarea
-  - @tags.each do |g|
-    .tagx{ :id => "#{g.Name}" }
-      .tagtitle
-        #{g.Name}
-        .fooarea
-  #bmarea
-    .bmlist
+.searcharea
+  %span Simply Delicious
+  %input{:type => "text", :id => "userid", :class => "text"}
+  %input{:type => "button", :class => "tags", :value => "Get 'em"}
+  %input{:type => "checkbox", :id => "cacheopt", :checked => true, :value => "usecache"} Use cache when possible
+
+.usertags
+

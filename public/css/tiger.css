@@ -177,10 +177,23 @@ div.fooarea a:link, div.fooarea a:visited {
 }
 
 div.busyicon {
-	background-image:url('../images/busy1.gif');
+	background-image:url('../images/wait30trans.gif');
 	background-repeat:no-repeat;
-	width: 40px;
-	height: 40px;
+	width: 30px;
+	height: 30px;
 	margin: 75px 0 0 90px;
 }
 
+div.searcharea {
+  text-align: center;
+}
+
+div.searcharea span {
+  color: #333333;
+  font-size: 1.3em;
+}
+
+div.searcharea input.text {
+  width: 120px;
+  margin: 0 0 0 20px;
+}

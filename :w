@@ -19,11 +19,10 @@ function initialize(){
 	}
 
 	var $savedUser = localStorage["userId"];
-	console.log("saved user: " + $savedUser);
 	if ( $savedUser != undefined ) {
 		$('input#userid').val($savedUser);
-		getTagsForUser();
 	}
+
 }
 
 function getTagsForUser() {
@@ -45,9 +44,6 @@ function getTagsForUser() {
 		success: function(userTags) {
 			var xxx = Mustache.to_html(template, userTags);
 			$('div.usertags').html(xxx);
-			if (supports_html5_storage) {
-				localStorage["userId"] = $userid;
-			}
 		},
 		error: function() {
 			// TODO ** response is always error; even when success

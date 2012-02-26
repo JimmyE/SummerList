@@ -40,14 +40,22 @@ class QuickieApp < Sinatra::Base
   end
 
   get "/" do
-	logger.info("Get tags")
+	@tags = []
+    haml :index
+  end
+
+  post "/tags" do
+	userid = params['userid']
+	#userid = params[:userid]
+	logger.info("Get tags for " + userid)
 	repo = DeliciousRepo.new(@dbConnected)
 
-	buffer = repo.GetTags("jecker88")
+	buffer = repo.GetTags(userid)
 	buffer.sort! { |a,b| b.Count <=> a.Count }
 
 	@tags = buffer.slice(0, 12)
-    haml :index
+    #haml :index
+	{ :results => @tags}.to_json
   end
 
   #padrino and mongo-mapper have conflicts on activesupport
