@@ -29,13 +29,18 @@ class QuickieApp < Sinatra::Base
 	  #puts "Call app.configure"  # T*** TEMP ***
 
 	  disable :logging
-	  MongoMapper.connection = Mongo::Connection.new("localhost")
+	  #MongoMapper.connection = Mongo::Connection.new("localhost")
+	  databaseEnv = ENV['MONGOHQ_URL'] || 'localhost'
+	  info "databaseEnv: " + databaseEnv
+	  #MongoMapper.connection = Mongo::Connection.new("localhost")
+	  MongoMapper.connection = Mongo::Connection.new(databaseEnv)
 	  MongoMapper.database = "delbookmarks"
 	  @dbConnected = true
+	  info "Use cache " + @dbConnected.to_s
 	rescue StandardError => exc
 	  @dbConnected = false
 	  error! "Unable to connect to Mongo database! " + exc.to_s
-	  puts "Error connecting to mongo database: " + exc.to_s
+	  puts " (puts) Error connecting to mongo database: " + exc.to_s
 	end
   end
 

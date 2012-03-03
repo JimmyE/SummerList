@@ -9,6 +9,8 @@ class DeliciousRepo
 
   def initialize(useCacheDB)
 	@useDatabase = useCacheDB
+	#info "use Mongo Cache " + useCacheDB
+#	info "use Mongo Cache #{useCacheDB}" 
   end
 
   def GetTags(deliciousUser)
