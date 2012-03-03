@@ -10,6 +10,8 @@ module Sinatra
 			@logger ||= Logger.new("log/#{ENV["RACK_ENV"]}.log")
 		  end
 			
+			@logger ||= Logger.new(STDOUT)
+			puts "FOO logger use stdout"
 		  @logger  
 		end
 
