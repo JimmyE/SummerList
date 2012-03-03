@@ -26,7 +26,7 @@ class QuickieApp < Sinatra::Base
 #  end
   configure do
 	begin
-	  puts "Call app.configure"  # T*** TEMP ***
+	  #puts "Call app.configure"  # T*** TEMP ***
 
 	  disable :logging
 	  MongoMapper.connection = Mongo::Connection.new("localhost")
@@ -34,7 +34,7 @@ class QuickieApp < Sinatra::Base
 	  @dbConnected = true
 	rescue StandardError => exc
 	  @dbConnected = false
-	  logger.error "Unable to connect to Mongo database! " + exc.to_s
+	  error! "Unable to connect to Mongo database! " + exc.to_s
 	  puts "Error connecting to mongo database: " + exc.to_s
 	end
   end
@@ -47,7 +47,7 @@ class QuickieApp < Sinatra::Base
   post "/tags" do
 	userid = params['userid']
 	#userid = params[:userid]
-	logger.info("Get tags for " + userid)
+	info("Get tags for " + userid)
 	repo = DeliciousRepo.new(@dbConnected)
 
 	buffer = repo.GetTags(userid)
@@ -63,7 +63,7 @@ class QuickieApp < Sinatra::Base
   post "/getBookmarks" do
 	content_type :json
 
-	logger.info("Get Bookmarks for: " + params['tag'])
+	info("Get Bookmarks for: " + params['tag'])
 	repo = DeliciousRepo.new(@dbConnected)
 	bookmarkList = repo.GetBookmarks("jecker88", params['tag'])
 
@@ -72,11 +72,11 @@ class QuickieApp < Sinatra::Base
 	#"Got em"
 	# todo : how to return json ata?
 #	json_result = JSON.parse bookmarkList
-#	logger.info("GetBookmarks done!")
+#	info("GetBookmarks done!")
 	#bookmarkList.to_json
 	#foo = bookmarkList[0]
-	#logger.warn("foo.Url: #{foo.Url}  desc: #{foo.Description}")
-	#logger.warn json_result
+	#warn!("foo.Url: #{foo.Url}  desc: #{foo.Description}")
+	#warn! json_result
 	#json_result
 	#{ :key1 => 'value1', :key2 => 'value2' }.to_json
 	#json({:bm => foo}, :encoder => :to_json )

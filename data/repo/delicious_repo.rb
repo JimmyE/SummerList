@@ -5,10 +5,9 @@ require 'json'
 require "./lib/logging"
 
 class DeliciousRepo 
+  include Sinatra::Logging
 
   def initialize(useCacheDB)
-	# todo: make myLogger a static? property
-	@myLogger = Sinatra::Logging::XLogger.new
 	@useDatabase = useCacheDB
   end
 
@@ -17,10 +16,11 @@ class DeliciousRepo
 
 	tags = DeliciousTag.all(:Username => deliciousUser) if @useDatabase
 	if tags != nil && tags.count > 0
-	  @myLogger.info  "Got tags from database"
+	  info  "Got tags from database"
 	  tags
 	else
-	  @myLogger.info  "Call delicious web api"
+	  info  "Call delicious web api"
+
 	  url = "/v2/json/tags/#{deliciousUser}?count=100"
 	  response = GetDeliciousResponse(url)
 
@@ -49,30 +49,30 @@ class DeliciousRepo
 
 	bookmarks = DeliciousBookmark.all(:Username => deliciousUser, :ParentTag => tagName) if @useDatabase
 	if bookmarks != nil && bookmarks.count > 0
-	  @myLogger.info("return bookmarks for #{tagName} from database")
+	  info("return bookmarks for #{tagName} from database")
 	  bookmarks
 	else
-	  @myLogger.info("send webrequest for bookmarks for #{tagName} ")
+	  info("send webrequest for bookmarks for #{tagName} ")
 	  url = "/v2/json/#{deliciousUser}/#{tagName}?count=100" 
 
 	  response = GetDeliciousResponse(url)
 
 	  buffer = JSON.load response.body
 	  if buffer == nil
-	   @myLogger.error "json buffer is null"
+	   error! "json buffer is null"
 	   return
 	  end
 
 	  DeliciousBookmark.delete_all(:Username => deliciousUser, :ParentTag => tagName) if @useDatabase
 	  buffer.each do |foo|
-		@myLogger.info "Create new bookmark for " + foo["u"] + "  tag: " + tagName
+		info "Create new bookmark for '" + deliciousUser + "' " + foo["u"] + "  tag: " + tagName
 		#results.push(DeliciousBookmark.new foo["d"], foo["u"] )
 		bookmark = DeliciousBookmark.new deliciousUser, tagName, foo["d"], foo["u"]
 		bookmark.save if @useDatabase
 		results.push bookmark
 	  end # end buffer.each
 
-	  @myLogger.info "GetBookmarks done"
+	  info "GetBookmarks done"
 	  results
 	end
   end
@@ -91,7 +91,7 @@ class DeliciousRepo
 	  response = http.request(req)
 
 	  if response.code != "200"
-		@myLogger.error("Request failed. responseCode #{response.code}  response: " + req.to_s)
+		error!("Request failed. responseCode #{response.code}  response: " + req.to_s)
 		raise "Unable to get Delicious server"
 	  end
 	end #end http-start
