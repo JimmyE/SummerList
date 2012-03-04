@@ -17,22 +17,24 @@ class DeliciousRepo
 	tags = DeliciousTag.all(:Username => deliciousUser) if @useDatabase
 	if tags != nil && tags.count > 0
 	  info  "Got tags from database (cache)"
-	  tags
+	  tags   # TODO * use "return tags"  ??
 	else
 	  info  "Get tags by calling Delicious web api"
 
 	  url = "/v2/json/tags/#{deliciousUser}?count=100"
 	  response = GetDeliciousResponse(url)
 
-	  info " temp* delicious response returned: " + response.body
+	  info " response: " + response.to_s  # *temp
+	  info " response.body = " + response.body  # *temp
+	  info " response.code = " + response.code  # *temp
+
 	  buffer = JSON.load response.body
 
 	  # TODO ** check return code for error
 	  #if response.body.key?("code")
-		#error!("Request failed. " + buffer.to_s)
-	  #end
+	#	error!("Request failed. " + buffer.to_s)
+	#  end
 	  #
-	  info " getTags - buffer loaded"
 
 	  ## ** TODO delete by username
 	  DeliciousTag.delete_all if @useDatabase
@@ -81,7 +83,6 @@ class DeliciousRepo
   end
 
   def GetDeliciousResponse(url)
-	info "GetDelResponse PART1"
 	response = "";
 	#http = Net::HTTP.new("api.del.icio.us", 443)
 	http = Net::HTTP.new("feeds.delicious.com", 80)
@@ -89,17 +90,13 @@ class DeliciousRepo
 	#http://feeds.delicious.com/v2/json/jecker88/programming?count=100
 
 	begin
-	  info "GetDelResponse PART2"
 	  http.start do |http|
 		req = Net::HTTP::Get.new(url,
 							  {"User-Agent" => "juretta.com RubyLicious 0.2"})
 		#req.basic_auth(username, password)
 		response = http.request(req)
  
-		info "GetDelResponse PART3"  # ** *temp
-		info "response.code = " + response.code  # ** *temp
 		if response.code != "200"
-		  puts "request failed *temp: " + req.to_s
 		  error!("Request failed. responseCode #{response.code}  response: " + req.to_s)
 		  raise "Unable to get Delicious server"
 		end
