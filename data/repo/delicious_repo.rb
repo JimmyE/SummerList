@@ -28,7 +28,7 @@ class DeliciousRepo
 
 	  # TODO ** check return code for error
 	  #if response.body.key?("code")
-		#logger.error!("Request failed. " + buffer.to_s)
+		#error!("Request failed. " + buffer.to_s)
 	  #end
 
 	  ## ** TODO delete by username
@@ -84,18 +84,22 @@ class DeliciousRepo
 	#http.use_ssl = true
 	#http://feeds.delicious.com/v2/json/jecker88/programming?count=100
 
-	http.start do |http|
-	  req = Net::HTTP::Get.new(url,
-							 {"User-Agent" => "juretta.com RubyLicious 0.2"})
-	  #req.basic_auth(username, password)
-	  response = http.request(req)
+	begin
+	  http.start do |http|
+		req = Net::HTTP::Get.new(url,
+							  {"User-Agent" => "juretta.com RubyLicious 0.2"})
+		#req.basic_auth(username, password)
+		response = http.request(req)
 
-	  if response.code != "200"
-		error!("Request failed. responseCode #{response.code}  response: " + req.to_s)
-		raise "Unable to get Delicious server"
-	  end
-	end #end http-start
-	response
+		if response.code != "200"
+		  error!("Request failed. responseCode #{response.code}  response: " + req.to_s)
+		  raise "Unable to get Delicious server"
+		end
+	  end #end http-start
+	  response
+	rescue StandardError => exc
+		error! "GetDeliciousResponse() error: " + exc.to_s
+	end
   end
 end
 
