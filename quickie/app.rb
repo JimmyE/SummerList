@@ -20,7 +20,7 @@ class QuickieApp < Sinatra::Base
 #  end
   configure do
 	begin
-	  #puts "Call app.configure"  # T*** TEMP ***
+	  puts "Call app.configure ** NEW **"  # T*** TEMP ***
 
 	  disable :logging
 	  #MongoMapper.connection = Mongo::Connection.new("localhost")
