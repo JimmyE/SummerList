@@ -17,25 +17,30 @@ class QuickieApp < Sinatra::Base
   set :views,  Proc.new { File.join(Dir.pwd, "views") }
 
   configure :development do
-	puts "**DEV**"
 	info "DEVELOPMENT environment"
+	  databaseEnv = 'localhost'
+	  MongoMapper.connection = Mongo::Connection.new(databaseEnv)
+	  MongoMapper.database = "delbookmarks"
+	  @dbConnected = true
   end
   configure :production do
-	puts "**PRODUCTION**"
 	info "PRODUCTION environment"
+	  databaseEnv = ENV['MONGOHQ_URL']
+	  #MongoMapper.connection = Mongo::Connection.new(databaseEnv)
+	  MongoMapper.connection = MongoMapper::Connection.from_uri(databaseEnv)
+	  MongoMapper.database = "delbookmarks"
+	  @dbConnected = true
   end
   configure do
 	begin
 	  puts "***Call app.configure"  # T*** TEMP ***
 
-	  disable :logging
-	  #MongoMapper.connection = Mongo::Connection.new("localhost")
-	  databaseEnv = ENV['MONGOHQ_URL'] || 'localhost'
-	  info "databaseEnv: " + databaseEnv
-	  #MongoMapper.connection = Mongo::Connection.new("localhost")
-	  MongoMapper.connection = Mongo::Connection.new(databaseEnv)
-	  MongoMapper.database = "delbookmarks"
-	  @dbConnected = true
+	  #disable :logging
+	  #databaseEnv = ENV['MONGOHQ_URL'] || 'localhost'
+	  #info "databaseEnv: " + databaseEnv
+	  #MongoMapper.connection = Mongo::Connection.new(databaseEnv)
+	  #MongoMapper.database = "delbookmarks"
+	  #@dbConnected = true
 	  info "Connected to mongoDB; use cache " + @dbConnected.to_s
 	rescue StandardError => exc
 	  @dbConnected = false
