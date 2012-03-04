@@ -25,26 +25,31 @@ class DeliciousRepo
 	  response = GetDeliciousResponse(url)
 
 	  info " response.body = " + response.body  # *temp
+	  info " response.content_type = " + response.content_type  # *temp
 
-	  buffer = JSON.load response.body
+	  if response.content_type == "application/json"
+		buffer = JSON.load response.body
 
-	  info "buffer: " + buffer.to_s
+		info "buffer: " + buffer.to_s
 
-	  # TODO ** check return code for error
-	  if buffer.key?("result")
-		error!("Request failed. " + buffer.to_s)
-		buffer["error"] = "Unable to query delicious"
+		# TODO ** check return code for error
+		#if buffer.key?("result")
+	  #	error!("Request failed. " + buffer.to_s)
+	  #	buffer["error"] = "Unable to query delicious"
+	  #  end
+
+		## ** TODO delete by username
+		DeliciousTag.delete_all if @useDatabase
+		buffer.each do |name, cnt|
+		  #results.push(DeliciousTag.new deliciousUser, name, cnt)
+		  tag = DeliciousTag.new deliciousUser, name, cnt
+		  tag.save if @useDatabase
+		  results.push tag
+		end
+	  else
+		  tag = DeliciousTag.new deliciousUser, "Error", 1
+		  results.push tag
 	  end
-
-	  ## ** TODO delete by username
-	  DeliciousTag.delete_all if @useDatabase
-	  buffer.each do |name, cnt|
-		#results.push(DeliciousTag.new deliciousUser, name, cnt)
-		tag = DeliciousTag.new deliciousUser, name, cnt
-		tag.save if @useDatabase
-		results.push tag
-	  end
-
 	  results
 	end
   end
