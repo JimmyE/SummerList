@@ -31,10 +31,10 @@ class DeliciousRepo
 	  info "buffer: " + buffer.to_s
 
 	  # TODO ** check return code for error
-	  #if response.body.key?("code")
-	#	error!("Request failed. " + buffer.to_s)
-	#  end
-	  #
+	  if buffer.key?("result")
+		error!("Request failed. " + buffer.to_s)
+		buffer["error"] = "Unable to query delicious"
+	  end
 
 	  ## ** TODO delete by username
 	  DeliciousTag.delete_all if @useDatabase
