@@ -25,11 +25,17 @@ class QuickieApp < Sinatra::Base
   end
   configure :production do
 	info "PRODUCTION environment"
+	begin
 	  databaseEnv = ENV['MONGOHQ_URL']
 	  #MongoMapper.connection = Mongo::Connection.new(databaseEnv)
 	  MongoMapper.connection = MongoMapper::Connection.from_uri(databaseEnv)
 	  MongoMapper.database = "delbookmarks"
 	  @dbConnected = true
+	rescue StandardError => exc
+	  @dbConnected = false
+	  error! "Unable to connect to Mongo database! " + exc.to_s
+	  puts " (puts) Error connecting to mongo database: " + exc.to_s
+	end
   end
   configure do
 	begin
