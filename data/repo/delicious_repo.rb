@@ -24,13 +24,15 @@ class DeliciousRepo
 	  url = "/v2/json/tags/#{deliciousUser}?count=100"
 	  response = GetDeliciousResponse(url)
 
-	  info " temp* delicious response returned"
+	  info " temp* delicious response returned: " + response.body
 	  buffer = JSON.load response.body
 
 	  # TODO ** check return code for error
 	  #if response.body.key?("code")
 		#error!("Request failed. " + buffer.to_s)
 	  #end
+	  #
+	  info " getTags - buffer loaded"
 
 	  ## ** TODO delete by username
 	  DeliciousTag.delete_all if @useDatabase
