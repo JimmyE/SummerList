@@ -64,12 +64,18 @@ class QuickieApp < Sinatra::Base
 	userid = params['userid']
 	info("Get tags for " + userid)
 
-	repo = DeliciousRepo.new(@dbConnected)
-	buffer = repo.GetTags(userid)
+	begin
+	  repo = DeliciousRepo.new(@dbConnected)
+	  buffer = repo.GetTags(userid)
 
-	buffer.sort! { |a,b| b.Count <=> a.Count }
+	  buffer.sort! { |a,b| b.Count <=> a.Count }
 
-	@tags = buffer.slice(0, 12)   # 12 tags only
+	  @tags = buffer.slice(0, 12)   # 12 tags only
+	rescue StandardError => exc
+	  error! "GetTags failed. " + exc.to_s
+	  push @tags, "System error " + exc.to_s
+	end
+
 	{ :results => @tags}.to_json
   end
 

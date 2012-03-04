@@ -93,9 +93,9 @@ class DeliciousRepo
 							  {"User-Agent" => "juretta.com RubyLicious 0.2"})
 		#req.basic_auth(username, password)
 		response = http.request(req)
-
-		info "GetDelResponse PART3"
-		info "response.code = " + response.code
+ 
+		info "GetDelResponse PART3"  # ** *temp
+		info "response.code = " + response.code  # ** *temp
 		if response.code != "200"
 		  puts "request failed *temp: " + req.to_s
 		  error!("Request failed. responseCode #{response.code}  response: " + req.to_s)
