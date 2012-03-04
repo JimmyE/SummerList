@@ -16,11 +16,17 @@ class QuickieApp < Sinatra::Base
   set :public_folder, Proc.new { File.join(Dir.pwd, "public") }
   set :views,  Proc.new { File.join(Dir.pwd, "views") }
 
-  #configure :development do
-#  end
+  configure :development do
+	puts "**DEV**"
+	info "DEVELOPMENT environment"
+  end
+  configure :production do
+	puts "**PRODUCTION**"
+	info "PRODUCTION environment"
+  end
   configure do
 	begin
-	  puts "Call app.configure ** NEW **"  # T*** TEMP ***
+	  puts "***Call app.configure"  # T*** TEMP ***
 
 	  disable :logging
 	  #MongoMapper.connection = Mongo::Connection.new("localhost")
