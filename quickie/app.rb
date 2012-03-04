@@ -71,12 +71,14 @@ class QuickieApp < Sinatra::Base
 	  buffer.sort! { |a,b| b.Count <=> a.Count }
 
 	  @tags = buffer.slice(0, 12)   # 12 tags only
+	  rc = 0
 	rescue StandardError => exc
 	  error! "GetTags failed. " + exc.to_s
-	  push @tags, "System error " + exc.to_s
+	  @tags = ["System error " + exc.to_s]
+	  rc = 1
 	end
 
-	{ :results => @tags}.to_json
+	{ :code => rc, :results => @tags}.to_json
   end
 
   #padrino and mongo-mapper have conflicts on activesupport

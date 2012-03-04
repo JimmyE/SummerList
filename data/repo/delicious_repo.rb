@@ -29,15 +29,21 @@ class DeliciousRepo
 
 	  if response.content_type == "application/json"
 		buffer = JSON.load response.body
+		#buffer = [{'result'=>{'message'=>'something went wrong', 'code'=>1000}}]
 
+		if buffer.kind_of?(Array)
+		  buffer = buffer.pop
+		end
 		info "buffer: " + buffer.to_s  # *temp
 		info "buffer.class: " + buffer.class.name  # *temp
 
 		# TODO ** check return code for error
-		#if buffer.key?("result")
-	  #	error!("Request failed. " + buffer.to_s)
-	  #	buffer["error"] = "Unable to query delicious"
-	  #  end
+		if buffer.key?("result")
+		  error!("Request failed. " + buffer.to_s)
+		  message = buffer["result"]["message"]
+		  code = buffer["result"]["code"]
+		  raise "Delicious returned an error: #{code} #{message}"
+		end
 
 		## ** TODO delete by username
 		DeliciousTag.delete_all if @useDatabase

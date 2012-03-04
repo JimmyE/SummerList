@@ -43,15 +43,20 @@ function getTagsForUser() {
 		dataType: "json",
 		data: data,
 		success: function(userTags) {
+		  if (userTags.code == 0 ) {
 			var xxx = Mustache.to_html(template, userTags);
 			$('div.usertags').html(xxx);
 			if (supports_html5_storage) {
 				localStorage["userId"] = $userid;
 			}
+		  }
+		  else {
+			alert("Error unable " + userTags.results) 
+		  }
 		},
-		error: function() {
+		error: function(message) {
 			// TODO ** response is always error; even when success
-		  console.log("getTags ERROR");
+		  console.log("getTags ERROR: " + message);
 		  alert("Errors getting tags for user");
 	}});
 }
