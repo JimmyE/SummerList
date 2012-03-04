@@ -24,13 +24,14 @@ class DeliciousRepo
 	  url = "/v2/json/tags/#{deliciousUser}?count=100"
 	  response = GetDeliciousResponse(url)
 
-	  info " response.body = " + response.body  # *temp
+	  #info " response.body = " + response.body  # *temp
 	  info " response.content_type = " + response.content_type  # *temp
 
 	  if response.content_type == "application/json"
 		buffer = JSON.load response.body
 
-		info "buffer: " + buffer.to_s
+		info "buffer: " + buffer.to_s  # *temp
+		info "buffer.class: " + buffer.class.name  # *temp
 
 		# TODO ** check return code for error
 		#if buffer.key?("result")
