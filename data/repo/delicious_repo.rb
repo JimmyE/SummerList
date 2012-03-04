@@ -95,6 +95,7 @@ class DeliciousRepo
 		response = http.request(req)
 
 		info "GetDelResponse PART3"
+		info "response.code = " + response.code
 		if response.code != "200"
 		  puts "request failed *temp: " + req.to_s
 		  error!("Request failed. responseCode #{response.code}  response: " + req.to_s)
