@@ -5,13 +5,10 @@ module Sinatra
 		def logger
 		  if ENV["RACK_ENV"] == "production"
 			@logger ||= Logger.new(STDOUT)
-			puts "Production version"
 		  else
 			@logger ||= Logger.new("log/#{ENV["RACK_ENV"]}.log")
 		  end
 			
-			@logger ||= Logger.new(STDOUT)
-			puts "FOO logger use stdout"
 		  @logger  
 		end
 

@@ -2,8 +2,6 @@ require "rubygems"
 require "sinatra/base"
 require "sinatra/content_for"
 require "sinatra/json"
-#require "padrino-core/application/routing"
-
 require "mongo_mapper"
 require "./data/repo/delicious_repo"
 require "./data/model/delicious_tag"
@@ -12,7 +10,6 @@ require "./lib/logging"
 
 class QuickieApp < Sinatra::Base
   register Sinatra::Logging
-#  register Padrino::Routing
   helpers Sinatra::ContentFor
   helpers Sinatra::JSON
 
@@ -20,9 +17,6 @@ class QuickieApp < Sinatra::Base
   set :views,  Proc.new { File.join(Dir.pwd, "views") }
 
   #configure :development do
-	# doesn't work
-#	puts "disable dev logging"  #
-#	disable :logging
 #  end
   configure do
 	begin
@@ -36,7 +30,7 @@ class QuickieApp < Sinatra::Base
 	  MongoMapper.connection = Mongo::Connection.new(databaseEnv)
 	  MongoMapper.database = "delbookmarks"
 	  @dbConnected = true
-	  info "Use cache " + @dbConnected.to_s
+	  info "Connected to mongoDB; use cache " + @dbConnected.to_s
 	rescue StandardError => exc
 	  @dbConnected = false
 	  error! "Unable to connect to Mongo database! " + exc.to_s
@@ -51,15 +45,14 @@ class QuickieApp < Sinatra::Base
 
   post "/tags" do
 	userid = params['userid']
-	#userid = params[:userid]
 	info("Get tags for " + userid)
-	repo = DeliciousRepo.new(@dbConnected)
 
+	repo = DeliciousRepo.new(@dbConnected)
 	buffer = repo.GetTags(userid)
+
 	buffer.sort! { |a,b| b.Count <=> a.Count }
 
-	@tags = buffer.slice(0, 12)
-    #haml :index
+	@tags = buffer.slice(0, 12)   # 12 tags only
 	{ :results => @tags}.to_json
   end
 

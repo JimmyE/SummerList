@@ -9,8 +9,6 @@ class DeliciousRepo
 
   def initialize(useCacheDB)
 	@useDatabase = useCacheDB
-	#info "use Mongo Cache " + useCacheDB
-#	info "use Mongo Cache #{useCacheDB}" 
   end
 
   def GetTags(deliciousUser)
@@ -18,10 +16,10 @@ class DeliciousRepo
 
 	tags = DeliciousTag.all(:Username => deliciousUser) if @useDatabase
 	if tags != nil && tags.count > 0
-	  info  "Got tags from database"
+	  info  "Got tags from database (cache)"
 	  tags
 	else
-	  info  "Call delicious web api"
+	  info  "Get tags by calling Delicious web api"
 
 	  url = "/v2/json/tags/#{deliciousUser}?count=100"
 	  response = GetDeliciousResponse(url)
