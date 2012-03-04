@@ -16,8 +16,12 @@ class QuickieApp < Sinatra::Base
   set :public_folder, Proc.new { File.join(Dir.pwd, "public") }
   set :views,  Proc.new { File.join(Dir.pwd, "views") }
 
-  #configure :development do
-#  end
+  configure :development do
+	info "DEVELOPMENT environment"
+  end
+  configure :production do
+	info "PRODUCTION environment"
+  end
   configure do
 	begin
 	  #puts "Call app.configure"  # T*** TEMP ***
