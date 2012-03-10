@@ -3,6 +3,7 @@ require "sinatra/base"
 require "sinatra/content_for"
 require "sinatra/json"
 require "mongo_mapper"
+require "uri"
 require "./data/repo/delicious_repo"
 require "./data/model/delicious_tag"
 require "./data/model/delicious_bookmark"
@@ -18,6 +19,9 @@ class QuickieApp < Sinatra::Base
 
   configure :development do
 	info "DEVELOPMENT environment"
+	  #jfoo = "mongodb://eddie:eddiepwd@staff.mongohq.com:10038/app2686108"
+	  #uri = URI.parse(foo)
+	
 	  databaseEnv = 'localhost'
 	  MongoMapper.connection = Mongo::Connection.new(databaseEnv)
 	  MongoMapper.database = "delbookmarks"
@@ -28,7 +32,14 @@ class QuickieApp < Sinatra::Base
 	begin
 	  databaseEnv = ENV['MONGOHQ_URL']
 	  #MongoMapper.connection = Mongo::Connection.new(databaseEnv)
-	  MongoMapper.connection = Mongo::Connection.from_uri(databaseEnv)
+	  #MongoMapper.connection = Mongo::Connection.from_uri(databaseEnv)
+
+	  uri = URI.parse(ENV['MONGOHQ_URL'])
+	  conn = Mongo::Connection.new(uri.host, uri.port)
+	  db = conn.db(uri.path.gsub(/^\//, ''))
+	  db.authenticate(uri.user, uri.password)
+	  
+	  #MongoMapper.db(
 	  #MongoMapper.database = "delbookmarks"
 	  info "databaseEnv #{databaseEnv}"
 	  @@dbConnected = true
