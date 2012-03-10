@@ -29,7 +29,8 @@ class QuickieApp < Sinatra::Base
 	  databaseEnv = ENV['MONGOHQ_URL']
 	  #MongoMapper.connection = Mongo::Connection.new(databaseEnv)
 	  MongoMapper.connection = Mongo::Connection.from_uri(databaseEnv)
-	  MongoMapper.database = "delbookmarks"
+	  #MongoMapper.database = "delbookmarks"
+	  info "databaseEnv #{databaseEnv}"
 	  @@dbConnected = true
 	rescue StandardError => exc
 	  @@dbConnected = false
