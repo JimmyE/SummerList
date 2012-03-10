@@ -32,12 +32,12 @@ class QuickieApp < Sinatra::Base
 	begin
 	  databaseEnv = ENV['MONGOHQ_URL']
 	  #MongoMapper.connection = Mongo::Connection.new(databaseEnv)
-	  #MongoMapper.connection = Mongo::Connection.from_uri(databaseEnv)
+	  MongoMapper.connection = Mongo::Connection.from_uri(databaseEnv)
 
-	  uri = URI.parse(ENV['MONGOHQ_URL'])
-	  conn = Mongo::Connection.new(uri.host, uri.port)
-	  db = conn.db(uri.path.gsub(/^\//, ''))
-	  db.authenticate(uri.user, uri.password)
+	  #uri = URI.parse(ENV['MONGOHQ_URL'])
+	  #conn = Mongo::Connection.new(uri.host, uri.port)
+	  #db = conn.db(uri.path.gsub(/^\//, ''))
+	  #db.authenticate(uri.user, uri.password)
 	  
 	  #MongoMapper.db(
 	  #MongoMapper.database = "delbookmarks"
