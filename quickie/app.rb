@@ -41,7 +41,7 @@ class QuickieApp < Sinatra::Base
 	  
 	  #MongoMapper.db(
 	  #MongoMapper.database = "delbookmarks"
-	  info "databaseEnv #{databaseEnv}"
+	  info "databaseEnv #{databaseEnv} user: #{uri.user}  pwd: #{uri.password} port: #{uri.port} "
 	  @@dbConnected = true
 	rescue StandardError => exc
 	  @@dbConnected = false
