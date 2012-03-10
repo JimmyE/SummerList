@@ -17,32 +17,32 @@ class QuickieApp < Sinatra::Base
   set :views,  Proc.new { File.join(Dir.pwd, "views") }
 
   configure :development do
+	puts "**DEV**"
 	info "DEVELOPMENT environment"
-	  databaseEnv = 'localhost'
-	  MongoMapper.connection = Mongo::Connection.new(databaseEnv)
-	  MongoMapper.database = "delbookmarks"
-	  @@dbConnected = true
   end
   configure :production do
+	puts "**PRODUCTION**"
 	info "PRODUCTION environment"
-	begin
-	  databaseEnv = ENV['MONGOHQ_URL']
-	  #MongoMapper.connection = Mongo::Connection.new(databaseEnv)
-	  MongoMapper.connection = Mongo::Connection.from_uri(databaseEnv)
-	  MongoMapper.database = "delbookmarks"
-	  @@dbConnected = true
-	rescue StandardError => exc
-	  @@dbConnected = false
-	  error! "Unable to connect to Mongo database! " + exc.to_s
-	  puts " (puts) Error connecting to mongo database: " + exc.to_s
-	end
   end
   configure do
 	begin
-	  @@dbConnected = true
-	  info "Connected to mongoDB: " + @@dbConnected.to_s
+<<<<<<< HEAD
+	  puts "Call app.configure ** NEW **"  # T*** TEMP ***
+=======
+	  puts "***Call app.configure"  # T*** TEMP ***
+>>>>>>> master
+
+	  disable :logging
+	  #MongoMapper.connection = Mongo::Connection.new("localhost")
+	  databaseEnv = ENV['MONGOHQ_URL'] || 'localhost'
+	  info "databaseEnv: " + databaseEnv
+	  #MongoMapper.connection = Mongo::Connection.new("localhost")
+	  MongoMapper.connection = Mongo::Connection.new(databaseEnv)
+	  MongoMapper.database = "delbookmarks"
+	  @dbConnected = true
+	  info "Connected to mongoDB; use cache " + @dbConnected.to_s
 	rescue StandardError => exc
-	  @@dbConnected = false
+	  @dbConnected = false
 	  error! "Unable to connect to Mongo database! " + exc.to_s
 	  puts " (puts) Error connecting to mongo database: " + exc.to_s
 	end
@@ -55,28 +55,15 @@ class QuickieApp < Sinatra::Base
 
   post "/tags" do
 	userid = params['userid']
-	usecache = params['usecache']
-	info "Get tags for #{userid}  useCache? #{usecache} dbConnected? #{@@dbConnected} "
+	info("Get tags for " + userid)
 
-	begin
-	  repo = DeliciousRepo.new(@@dbConnected)
-	  if usecache == "false"
-		repo.ClearCacheForUser(userid)
-	  end
+	repo = DeliciousRepo.new(@dbConnected)
+	buffer = repo.GetTags(userid)
 
-	  buffer = repo.GetTags(userid)
+	buffer.sort! { |a,b| b.Count <=> a.Count }
 
-	  buffer.sort! { |a,b| b.Count <=> a.Count }
-
-	  @tags = buffer.slice(0, 12)   # 12 tags only
-	  rc = 0
-	rescue StandardError => exc
-	  error! "GetTags failed. " + exc.to_s
-	  @tags = ["System error " + exc.to_s]
-	  rc = 1
-	end
-
-	{ :code => rc, :results => @tags}.to_json
+	@tags = buffer.slice(0, 12)   # 12 tags only
+	{ :results => @tags}.to_json
   end
 
   #padrino and mongo-mapper have conflicts on activesupport
@@ -85,7 +72,7 @@ class QuickieApp < Sinatra::Base
 	content_type :json
 
 	info("Get Bookmarks for: " + params['tag'])
-	repo = DeliciousRepo.new(@@dbConnected)
+	repo = DeliciousRepo.new(@dbConnected)
 	bookmarkList = repo.GetBookmarks("jecker88", params['tag'])
 
 	#haml :index  #  todo

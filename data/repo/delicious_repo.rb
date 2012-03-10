@@ -7,8 +7,18 @@ require "./lib/logging"
 class DeliciousRepo 
   include Sinatra::Logging
 
-  def initialize(useCacheDB)
-	@useDatabase = useCacheDB
+  def initialize(connectedToDb)
+	@useDatabase = connectedToDb 
+  end
+
+  def ClearCacheForUser (deliciousUser)
+	if ! @useDatabase
+	  return
+	end
+
+	info "Clear cache for user: #{deliciousUser}"
+	DeliciousTag.delete_all(:Username => deliciousUser)
+	DeliciousBookmark.delete_all(:Username => deliciousUser)
   end
 
   def GetTags(deliciousUser)
@@ -24,9 +34,6 @@ class DeliciousRepo
 	  url = "/v2/json/tags/#{deliciousUser}?count=100"
 	  response = GetDeliciousResponse(url)
 
-	  #info " response.body = " + response.body  # *temp
-	  info " response.content_type = " + response.content_type  # *temp
-
 	  if response.content_type == "application/json"
 		buffer = JSON.load response.body
 		#buffer = [{'result'=>{'message'=>'something went wrong', 'code'=>1000}}]
@@ -34,8 +41,6 @@ class DeliciousRepo
 		if buffer.kind_of?(Array)
 		  buffer = buffer.pop
 		end
-		info "buffer: " + buffer.to_s  # *temp
-		info "buffer.class: " + buffer.class.name  # *temp
 
 		# TODO ** check return code for error
 		if buffer.key?("result")
@@ -45,8 +50,7 @@ class DeliciousRepo
 		  raise "Delicious returned an error: #{code} #{message}"
 		end
 
-		## ** TODO delete by username
-		DeliciousTag.delete_all if @useDatabase
+		DeliciousTag.delete_all(:Username => deliciousUser) if @useDatabase
 		buffer.each do |name, cnt|
 		  #results.push(DeliciousTag.new deliciousUser, name, cnt)
 		  tag = DeliciousTag.new deliciousUser, name, cnt
@@ -83,7 +87,6 @@ class DeliciousRepo
 	  DeliciousBookmark.delete_all(:Username => deliciousUser, :ParentTag => tagName) if @useDatabase
 	  buffer.each do |foo|
 		info "Create new bookmark for '" + deliciousUser + "' " + foo["u"] + "  tag: " + tagName
-		#results.push(DeliciousBookmark.new foo["d"], foo["u"] )
 		bookmark = DeliciousBookmark.new deliciousUser, tagName, foo["d"], foo["u"]
 		bookmark.save if @useDatabase
 		results.push bookmark
