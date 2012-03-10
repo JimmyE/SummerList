@@ -25,14 +25,22 @@ class QuickieApp < Sinatra::Base
 	  databaseEnv = 'localhost'
 	  MongoMapper.connection = Mongo::Connection.new(databaseEnv)
 	  MongoMapper.database = "delbookmarks"
+	  #env = "mongodb://heroku:762cf00a143d7d288e811edaf7f9cb06@staff.mongohq.com:10038/app2686108"
+	  #foo = env.split("\/")
+	  #dbname = foo[-1]
+	  #MongoMapper.connection = Mongo::Connection.from_uri(env)
+	  #MongoMapper.database = "app2686108"
+	  #MongoMapper.database = dbname
+
 	  @@dbConnected = true
   end
   configure :production do
-	info "PRODUCTION environment"
 	begin
 	  databaseEnv = ENV['MONGOHQ_URL']
 	  #MongoMapper.connection = Mongo::Connection.new(databaseEnv)
 	  MongoMapper.connection = Mongo::Connection.from_uri(databaseEnv)
+	  buffer = databaseEnv.split("\/")
+	  MongoMapper.database = buffer[-1]
 
 	  #uri = URI.parse(ENV['MONGOHQ_URL'])
 	  #conn = Mongo::Connection.new(uri.host, uri.port)
@@ -42,7 +50,7 @@ class QuickieApp < Sinatra::Base
 	  #MongoMapper.db(
 	  #MongoMapper.database = "delbookmarks"
 	  #info "databaseEnv #{databaseEnv} user: #{uri.user}  pwd: #{uri.password} port: #{uri.port} "
-	  info "databaseEnv #{databaseEnv}"
+	  info " production databaseEnv #{databaseEnv}"
 	  @@dbConnected = true
 	rescue StandardError => exc
 	  @@dbConnected = false
