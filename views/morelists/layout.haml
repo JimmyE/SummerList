@@ -1,0 +1,17 @@
+!!! Strict
+%html{:xmlns => "http://www.w3.org/1999/xhtml"}
+  %head
+    %link{:href => "/css/movies.css", :rel => "stylesheet", :type => "text/css"}/
+    %link{:href => "/css/site.css", :rel => "stylesheet", :type => "text/css"}/
+    %link{:href => "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.17/themes/base/jquery-ui.css", :rel => "stylesheet", :type => "text/css"}/
+    <script data-main="/scripts/main" src="/scripts/require.min.js"></script>
+    = yield_content :header
+
+    %title
+      Summer Movie List
+  %body
+    .pageHeader
+    .main
+      = yield
+
+    = yield_content :footer

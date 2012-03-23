@@ -1,0 +1,26 @@
+
+<h3>Movies</h3>
+<div class="addmore">
+  <span class="action">Add a movie ...</span> 
+  <div class="new-movie">
+	<label>Title</label>
+	<input type="text" id="title" placeholder="movie title"/>
+	<label>Rating</label>
+	<input type="text" id="rating" placeholder="rating/interest level"/>
+
+  </div>
+</div>
+<div>
+  <div class="movie row header">
+	<div class="col title">Title</div>
+	<div class="col rating">Rating</div>
+	<div class="col user">Who</div>
+  </div>
+  {{#results}}
+  <div class="movie row">
+  	<div class="col title"> {{Title}} </div>
+  	<div class="col rating"> {{Rating}} </div>
+  	<div class="col user"> {{Username}} </div>
+  </div>
+  {{/results}}
+</div>
