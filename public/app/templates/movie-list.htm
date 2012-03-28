@@ -3,24 +3,51 @@
 <div class="addmore">
   <span class="action">Add a movie ...</span> 
   <div class="new-movie">
-	<label>Title</label>
-	<input type="text" id="title" placeholder="movie title"/>
+	<div>
+		<label>Title</label>
+		<input type="text" maxlength="90" id="title" placeholder="movie title"/>
+  	</div>
+	<div>
+		<label>Genre</label>
+		<input type="text" maxlength="90" id="genre" placeholder="genre(s)"/>
+  	</div>
+	<div>
+		<label>Notes</label>
+		<input type="text" maxlength="90" id="notes" placeholder="additional info about movie"/>
+  	</div>
+	<div>
+		<label>Length</label>
+		<input type="text" maxlength="90" id="length" placeholder="movie length"/>
+  	</div>
+
+	<input type="hidden" id="objectid" />
+	<!--
 	<label>Rating</label>
 	<input type="text" id="rating" placeholder="rating/interest level"/>
-
+	-->
+  	<div class="buttons row">
+		<input type="submit" name="cancel" class="button cancelbtn" value="Cancel"/>
+		<input type="submit" name="ok" class="button okbtn" value="Save"/>
+  	</div>
   </div>
 </div>
 <div>
   <div class="movie row header">
+	<div class="col edit">&nbsp;</div>
 	<div class="col title">Title</div>
-	<div class="col rating">Rating</div>
-	<div class="col user">Who</div>
+	<div class="col rating">Genre</div>
+	<div class="col notes">Notes</div>
+	<div class="col length">Length</div>
+	<div class="col url">IMDB</div>
   </div>
   {{#results}}
-  <div class="movie row">
+  <div class="movie row data" movieid="{{id}}">
+	<div class="col edit"><img src="images/edit-pen.png"/></div>
   	<div class="col title"> {{Title}} </div>
-  	<div class="col rating"> {{Rating}} </div>
-  	<div class="col user"> {{Username}} </div>
+  	<div class="col rating"> {{Genre}}&nbsp; </div>
+  	<div class="col notes"> {{Notes}} &nbsp;</div>
+  	<div class="col length"> {{Length}} &nbsp;</div>
+	<div class="col url"> <a href='{{Url}}' target='new'>Search</a>&nbsp;</div>
   </div>
   {{/results}}
 </div>

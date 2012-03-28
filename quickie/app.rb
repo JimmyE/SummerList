@@ -8,6 +8,7 @@ require "./data/repo/delicious_repo"
 require "./data/model/delicious_tag"
 require "./data/model/delicious_bookmark"
 require "./lib/logging"
+require "./lib/dbconnect"
 
 class QuickieApp < Sinatra::Base
   register Sinatra::Logging
@@ -18,50 +19,20 @@ class QuickieApp < Sinatra::Base
   set :views,  Proc.new { File.join(Dir.pwd, "views") }
 
   configure :development do
-	info "DEVELOPMENT environment"
-	  #jfoo = "mongodb://eddie:eddiepwd@staff.mongohq.com:10038/app2686108"
-	  #uri = URI.parse(foo)
-	
-	  databaseEnv = 'localhost'
-	  MongoMapper.connection = Mongo::Connection.new(databaseEnv)
-	  MongoMapper.database = "delbookmarks"
-	  #env = "mongodb://heroku:762cf00a143d7d288e811edaf7f9cb06@staff.mongohq.com:10038/app2686108"
-	  #foo = env.split("\/")
-	  #dbname = foo[-1]
-	  #MongoMapper.connection = Mongo::Connection.from_uri(env)
-	  #MongoMapper.database = "app2686108"
-	  #MongoMapper.database = dbname
-
-	  @@dbConnected = true
+	#info "DEVELOPMENT environment"
+	QuickieDBConnect.MongoConnectDev
+	@@dbConnected = true
   end
   configure :production do
 	begin
-	  databaseEnv = ENV['MONGOHQ_URL']
-	  #MongoMapper.connection = Mongo::Connection.new(databaseEnv)
-	  MongoMapper.connection = Mongo::Connection.from_uri(databaseEnv)
-	  buffer = databaseEnv.split("\/")
-	  MongoMapper.database = buffer[-1]
+	  #databaseEnv = ENV['MONGOHQ_URL']
+	  #MongoMapper.connection = Mongo::Connection.from_uri(databaseEnv)
+	  #buffer = databaseEnv.split("\/")
+	  #MongoMapper.database = buffer[-1]
 
-	  #uri = URI.parse(ENV['MONGOHQ_URL'])
-	  #conn = Mongo::Connection.new(uri.host, uri.port)
-	  #db = conn.db(uri.path.gsub(/^\//, ''))
-	  #db.authenticate(uri.user, uri.password)
-	  
-	  #MongoMapper.db(
-	  #MongoMapper.database = "delbookmarks"
-	  #info "databaseEnv #{databaseEnv} user: #{uri.user}  pwd: #{uri.password} port: #{uri.port} "
 	  info " production databaseEnv #{databaseEnv}"
+	  QuickieDBConnect.MongoConnectProd
 	  @@dbConnected = true
-	rescue StandardError => exc
-	  @@dbConnected = false
-	  error! "Unable to connect to Mongo database! " + exc.to_s
-	  puts " (puts) Error connecting to mongo database: " + exc.to_s
-	end
-  end
-  configure do
-	begin
-	  @@dbConnected = true
-	  info "Connected to mongoDB: " + @@dbConnected.to_s
 	rescue StandardError => exc
 	  @@dbConnected = false
 	  error! "Unable to connect to Mongo database! " + exc.to_s
@@ -109,20 +80,6 @@ class QuickieApp < Sinatra::Base
 	repo = DeliciousRepo.new(@@dbConnected)
 	bookmarkList = repo.GetBookmarks("jecker88", params['tag'])
 
-	#haml :index  #  todo
-	#redirect "/"
-	#"Got em"
-	# todo : how to return json ata?
-#	json_result = JSON.parse bookmarkList
-#	info("GetBookmarks done!")
-	#bookmarkList.to_json
-	#foo = bookmarkList[0]
-	#warn!("foo.Url: #{foo.Url}  desc: #{foo.Description}")
-	#warn! json_result
-	#json_result
-	#{ :key1 => 'value1', :key2 => 'value2' }.to_json
-	#json({:bm => foo}, :encoder => :to_json )
-	#foo.to_json
 	{ :results => bookmarkList}.to_json
   end
 end

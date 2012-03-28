@@ -1,15 +1,24 @@
 require 'mongo_mapper'
+require 'bson'
 
 class MovieItem
   include MongoMapper::Document
 
+  key :_id #, bson::ObjectID, :index => true
+  
   key :Username
   key :Title
-  key :Rating
   key :Notes
+  key :Genre
+  key :DateAdded, Date
+  key :Length
+
+  key :Rating
   key :Url
-  key :DateAdded
   key :TagList
+
+#  index :Title, :unique => true
+  validates_uniqueness_of :Title,
 
   #def initialize(user = "", tag = "", description = "", url = "")
 	#@ParentTag = tag

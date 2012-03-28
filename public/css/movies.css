@@ -15,10 +15,7 @@ body {
 }
 
 .movielist {
-  width: 430px;
-  /* margin; 60px auto; 
-  padding 60px 30px;
-  */
+  width: 700px;
   background: #c9d0de;
   border: 1px solid #e1e1e1;
   -moz-box-shadow: 0px 0px 8px #444;
@@ -26,13 +23,11 @@ body {
 }
 
 .movielist {
-  margin: 40px 0 10px 30px;
+  border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;
+  margin: 40px 0 40px 30px;
   color: #333;
   padding: 0 20px 30px 30px;
   min-height: 200px;
-  /*
-  font-size: 100%;
-  */
   float: left;
 }
 
@@ -50,6 +45,9 @@ body {
 .movielist .addmore:hover {
 	cursor: pointer; 
 }
+.movielist .addmore .new-movie:hover {
+	cursor: auto; 
+}
 
 .addmore span.action {
   padding-left: 20px;
@@ -57,7 +55,7 @@ body {
 
 .addmore label {
 	float: left; 
-	clear: left; 
+/*	clear: left; */
 	margin: 0px 15px 0 0; 
 	width: 95px;
 	text-align: right; 
@@ -69,7 +67,6 @@ body {
 }
 .addmore input {
 	width: 260px; 
-	/* height: 35px; */
 	padding: 5px 20px 0px 20px; 
 	margin: 0 0 15px 0;
 	background: #5E768D;
@@ -77,13 +74,14 @@ body {
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#546A7F), color-stop(20%,#5E768D)); /* webkit */
 	border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;
 	-moz-box-shadow: 0px 1px 0px #f2f2f2;-webkit-box-shadow: 0px 1px 0px #f2f2f2;
-	font-family: sans-serif; 
-/*	font-size: 16px;  */
+	/* font-family: sans-serif;  */
+	font-size: 1.2em;
 	color: #f2f2f2; 
-	/*text-transform: uppercase; 
-	text-shadow: 0px -1px 0px #334f71;
-	*/
 }
+.addmore input.button {
+  font-size: 1.0em;
+}
+
 input::-webkit-input-placeholder  {
    	color: #a1b2c3; text-shadow: 0px -1px 0px #38506b;
 }
@@ -91,6 +89,19 @@ input:-moz-placeholder {
 	color: #a1b2c3; text-shadow: 0px -1px 0px #38506b;
 }
 
+.addmore .buttons {
+  margin: 20px 0 20px 120px;
+}
+.addmore .buttons input {
+  width: 70px;
+  margin-right: 10px;
+  -moz-box-shadow: 0px 0px 5px #999;
+  -webkit-box-shadow: 0px 0px 5px #999;
+  border: 1px solid #556f8c;
+  background: -moz-linear-gradient(top, #718DA9 0%, #415D79 100%); /* firefox */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#718DA9), color-stop(100%,#415D79)); /* webkit */
+  cursor: pointer;
+}
 
 .movielist .row .col {
   float: left;
@@ -100,12 +111,29 @@ input:-moz-placeholder {
   float: left;
 }
 
+.addmore input#rating {
+  width: 90px;
+}
+.addmore input#length {
+  width: 90px;
+}
+
+.movielist .edit {
+  clear: left;
+  width: 30px;
+}
 .movielist .title {
   width: 180px;
 }
 .movielist .rating {
   width: 80px;
 }
-.movielist .user {
-  width: 100px;
+.movielist .notes {
+  width: 200px;
+}
+.movielist .length {
+  width: 90px;
+}
+.movielist .url {
+  width: 80px;
 }
