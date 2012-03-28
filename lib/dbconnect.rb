@@ -4,6 +4,7 @@ module QuickieDBConnect
 	databaseEnv = 'localhost'
 	MongoMapper.connection = Mongo::Connection.new(databaseEnv)
 	MongoMapper.database = "delbookmarks"
+	"delbookmarks"
   end
 
   def MongoConnectProd
@@ -11,6 +12,7 @@ module QuickieDBConnect
 	MongoMapper.connection = Mongo::Connection.from_uri(databaseEnv)
 	buffer = databaseEnv.split("\/")
 	MongoMapper.database = buffer[-1]
+	buffer[-1]
   end
 
   module_function :MongoConnectDev

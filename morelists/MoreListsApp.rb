@@ -18,21 +18,15 @@ class MoreListsApp < Sinatra::Base
 
   configure :development do
 	#info "DEVELOPMENT environment"
-	QuickieDBConnect.MongoConnectDev
-	@@dbConnected = true
+	dbname = QuickieDBConnect.MongoConnectDev
+    info " dev dbname: #{dbname}"
   end
   configure :production do
 	begin
-	  #databaseEnv = ENV['MONGOHQ_URL']
-	  #MongoMapper.connection = Mongo::Connection.from_uri(databaseEnv)
-	  #buffer = databaseEnv.split("\/")
-	  #MongoMapper.database = buffer[-1]
-
 	  info " production databaseEnv #{databaseEnv}"
-	  QuickieDBConnect.MongoConnectProd
-	  @@dbConnected = true
+	  dbname = QuickieDBConnect.MongoConnectProd
+	  info " prod dbname: #{dbname}"
 	rescue StandardError => exc
-	  @@dbConnected = false
 	  error! "Unable to connect to Mongo database! " + exc.to_s
 	  puts " (puts) Error connecting to mongo database: " + exc.to_s
 	end
