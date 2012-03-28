@@ -30,8 +30,8 @@ class QuickieApp < Sinatra::Base
 	  #buffer = databaseEnv.split("\/")
 	  #MongoMapper.database = buffer[-1]
 
-	  info " production databaseEnv #{databaseEnv}"
-	  QuickieDBConnect.MongoConnectProd
+	  foo = QuickieDBConnect.MongoConnectProd
+	  info " production databaseEnv #{foo}"
 	  @@dbConnected = true
 	rescue StandardError => exc
 	  @@dbConnected = false
