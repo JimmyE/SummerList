@@ -10,4 +10,6 @@ doc/app
 *~
 .DS_Store
 Notes
+startApp.sh
+stopApp.sh
 

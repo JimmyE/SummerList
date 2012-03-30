@@ -19,13 +19,13 @@ class MoreListsApp < Sinatra::Base
   configure :development do
 	#info "DEVELOPMENT environment"
 	dbname = QuickieDBConnect.MongoConnectDev
-    info " dev dbname: #{dbname}"
+    #info " dev dbname: #{dbname}"
   end
   configure :production do
 	begin
 	  info " production databaseEnv #{databaseEnv}"
 	  dbname = QuickieDBConnect.MongoConnectProd
-	  info " prod dbname: #{dbname}"
+	  #info " prod dbname: #{dbname}"
 	rescue StandardError => exc
 	  error! "Unable to connect to Mongo database! " + exc.to_s
 	  puts " (puts) Error connecting to mongo database: " + exc.to_s
@@ -63,8 +63,9 @@ class MoreListsApp < Sinatra::Base
 	  mi.Notes = params['notes']
 	  mi.Genre = params['genre']
 	  mi.Length = params['length']
+	  mi.Streaming = params['streaming']
 
-	  info "Add movie '#{mi.Title}'  Notes: #{mi.Notes}  Genre: #{mi.Genre} Added #{mi.DateAdded}"
+	  info "Add movie '#{mi.Title}'  Notes: #{mi.Notes}  Genre: #{mi.Genre} Added #{mi.DateAdded} Streaming: #{mi.Streaming}"
 	  repo = MovieListRepo.new
 	  repo.SaveMovie(mi)
 

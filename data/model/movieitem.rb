@@ -12,6 +12,7 @@ class MovieItem
   key :Genre
   key :DateAdded, Date
   key :Length
+  key :Streaming, Boolean   # Netflix or Amazon Prime
 
   key :Rating
   key :Url

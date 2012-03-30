@@ -3,19 +3,22 @@
 <div class="addmore">
   <span class="action">Add a movie ...</span> 
   <div class="new-movie">
-	<div>
+	<div class="col1">
 		<label>Title</label>
 		<input type="text" maxlength="90" id="title" placeholder="movie title"/>
   	</div>
-	<div>
+	<div class="col2">
+	  <input type="checkbox" id="streaming" /> Netflix/Amazon
+	</div>
+	<div class="col1">
 		<label>Genre</label>
 		<input type="text" maxlength="90" id="genre" placeholder="genre(s)"/>
   	</div>
-	<div>
+	<div class="col1">
 		<label>Notes</label>
 		<input type="text" maxlength="90" id="notes" placeholder="additional info about movie"/>
   	</div>
-	<div>
+	<div class="col1">
 		<label>Length</label>
 		<input type="text" maxlength="90" id="length" placeholder="movie length"/>
   	</div>
@@ -39,6 +42,7 @@
 	<div class="col notes">Notes</div>
 	<div class="col length">Length</div>
 	<div class="col url">IMDB</div>
+	<div class="col streaming">Streaming?</div>
   </div>
   {{#results}}
   <div class="movie row data" movieid="{{id}}">
@@ -48,6 +52,9 @@
   	<div class="col notes"> {{Notes}} &nbsp;</div>
   	<div class="col length"> {{Length}} &nbsp;</div>
 	<div class="col url"> <a href='{{Url}}' target='new'>Search</a>&nbsp;</div>
+	<div class="col streaming"> 
+	  <input type="checkbox" disabled='disabled' {{#Streaming}}checked='checked'{{/Streaming}} /> &nbsp;
+	</div>
   </div>
   {{/results}}
 </div>

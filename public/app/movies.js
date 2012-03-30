@@ -70,6 +70,11 @@ function(tpl ) {
 		$('div.addmore input#genre').val(movie.Genre);
 		$('div.addmore input#notes').val(movie.Notes);
 		$('div.addmore input#length').val(movie.Length);
+		var stream = false;
+		if ( movie.Streaming === 'true' ) {
+		  stream = true;
+		}
+		$('div.addmore input#streaming').prop("checked", stream);
 		$('div.addmore input#objectid').val(movie.id);
 	}
 
@@ -78,6 +83,8 @@ function(tpl ) {
 		$("#notes").val('');
 		$("#genre").val('');
 		$("#length").val('');
+		$("#objectid").val('');
+		//$("#streaming").val('');
 
 		$('div.addmore span.action').text('Add a movie ....');
 		var $addDiv = $('div.new-movie');
@@ -90,6 +97,7 @@ function(tpl ) {
 		var notes = $("#notes").val().trim();
 		var genre = $("#genre").val().trim();
 		var length = $("#length").val().trim();
+		var streaming = $("#streaming").is(':checked');
 		var id = $("#objectid").val();
 
 		if ( title === '' ){
@@ -102,13 +110,13 @@ function(tpl ) {
 		  id = 0;
 		}
 
-		saveMovie(id, title, notes, genre, length);
+		saveMovie(id, title, notes, genre, length, streaming);
 		closeAddSection();
 		getMovies();
 	}
 
-	function saveMovie(movieid, title, notes, genre, length) {
-		var data = { id: movieid, title: title, notes: notes, genre: genre, length: length}
+	function saveMovie(movieid, title, notes, genre, length, streaming) {
+		var data = { id: movieid, title: title, notes: notes, genre: genre, length: length, streaming: streaming}
 
 		$.ajax({
 			type: 'post',

@@ -15,7 +15,7 @@ body {
 }
 
 .movielist {
-  width: 700px;
+  width: 800px;
   background: #c9d0de;
   border: 1px solid #e1e1e1;
   -moz-box-shadow: 0px 0px 8px #444;
@@ -53,6 +53,15 @@ body {
   padding-left: 20px;
 }
 
+.addmore div.col1 {
+  float: left;
+  width: 450px
+}
+.addmore div.col2 {
+  float: left;
+  margin-left: 10px;
+  width: 150px
+}
 .addmore label {
 	float: left; 
 /*	clear: left; */
@@ -81,6 +90,9 @@ body {
 .addmore input.button {
   font-size: 1.0em;
 }
+.addmore input#streaming{
+  width: 15px;
+}
 
 input::-webkit-input-placeholder  {
    	color: #a1b2c3; text-shadow: 0px -1px 0px #38506b;
@@ -90,7 +102,8 @@ input:-moz-placeholder {
 }
 
 .addmore .buttons {
-  margin: 20px 0 20px 120px;
+  clear: both;
+  margin: 20px 0 20px 280px;
 }
 .addmore .buttons input {
   width: 70px;
@@ -115,6 +128,7 @@ input:-moz-placeholder {
   width: 90px;
 }
 .addmore input#length {
+  float: left;
   width: 90px;
 }
 
@@ -132,8 +146,12 @@ input:-moz-placeholder {
   width: 200px;
 }
 .movielist .length {
-  width: 90px;
+  width: 55px;
 }
 .movielist .url {
+  width: 45px;
+}
+.movielist .streaming {
+  text-align: center;
   width: 80px;
 }
