@@ -46,8 +46,8 @@ function(tpl) {
 			alert("A browser with html5 support required");
 	  		return;
 		}
+
 		//var savedUser = undefined;
-		//var savedUser = 'jim';
 		var savedUser = getMovieUserId();
 		if ( savedUser == undefined ) {
 			showLogin();	
@@ -125,7 +125,7 @@ function(tpl) {
 		$('div.addmore #moviefor').val(movie.WhoFor);
 
 		var stream = false;
-		if ( movie.Streaming === 'true' ) {
+		if ( movie.Streaming === true ) {
 		  stream = true;
 		}
 		$('div.addmore input#streaming').prop("checked", stream);
@@ -184,7 +184,7 @@ function(tpl) {
 			data: data,
 			success: function(results) {
 		  		if (results.code == 0 ) {
-				  console.log("Success on addmovie");
+				  //console.log("Success on addmovie");
 		  		}
 		  		else {
 					alert("Error unable add movie" + results.code) 
@@ -231,7 +231,7 @@ function(tpl) {
 			data: data,
 			success: function(movieData) {
 		  	if (movieData.code == 0 ) {
-				console.log(" results: " + movieData.results);
+				//console.log(" results: " + movieData.results);
 	  			addEditMovie(movieData.results);
 		  	}
 		  	else {
