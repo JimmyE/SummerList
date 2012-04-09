@@ -64,6 +64,7 @@ class MoreListsApp < Sinatra::Base
 	  mi.Genre = params['genre']
 	  mi.Length = params['length']
 	  mi.Streaming = params['streaming']
+	  mi.WhoFor = params['whofor']
 
 	  info "Add movie '#{mi.Title}'  Notes: #{mi.Notes}  Genre: #{mi.Genre} Added #{mi.DateAdded} Streaming: #{mi.Streaming}"
 	  repo = MovieListRepo.new
@@ -73,6 +74,20 @@ class MoreListsApp < Sinatra::Base
 	rescue StandardError => exc
 	  error "Error saving movie: " + exc.to_s;
 	end
+  end
+
+  post "/login" do
+	uid = params['user'].downcase
+	pwd = params['password']
+
+	rc = 1  #failed
+	if uid == 'jim' || uid == 'honghong' || uid == 'ethan' || uid == 'lucas'
+	  if pwd == uid
+	   rc = 0
+	  end
+	end
+
+	{ :code => rc }.to_json
   end
 
   get "/movie" do

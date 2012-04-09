@@ -12,6 +12,7 @@
   %body
     .pageHeader
     .main
+      %input{ :type => "hidden", :id => "movieuserid" }
       = yield
 
     = yield_content :footer

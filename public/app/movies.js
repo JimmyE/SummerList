@@ -4,13 +4,10 @@ define(
 "jquery", 
 "jquery-ui"
 ],
-
-function(tpl ) {
+function(tpl) {
 	initialize();
 
 	function initialize() {
-		getMovies();
-
 		$('.movielist').on('click', 'div.addmore span.action', function(event, ui) {
 			event.preventDefault();
 			addEditMovie();
@@ -41,11 +38,68 @@ function(tpl ) {
 		  editMovie(event);
 		});
 
-		//if (! supports_html5_storage) {
-	  	//	console.log("No html5 local storage support");
-	  	//	return;
-		//}
+		$('.movielist').on('click', 'a.loginlink', function(event) {
+		  showLogin();
+		});
+
+		if (! supports_html5_storage) {
+			alert("A browser with html5 support required");
+	  		return;
+		}
+		//var savedUser = getMovieUserId();
+		//var savedUser = undefined;
+		var savedUser = 'jim';
+		console.log("saved user: " + savedUser);
+		if ( savedUser == undefined ) {
+			//$('input#userid').val($savedUser);
+			showLogin();	
+		}
+		else {
+			getMovies();
+		}
 	} //end init
+
+	function showLogin() {
+	  $("div#login #ok").click( function() { userLogin(); });
+
+	  $("div#login").dialog(
+		  {
+			draggable: false,
+			closeOnEscape: false,
+	  		title: 'Signin -- Movie list'
+		  }).show();
+	}
+
+	function userLogin() {
+		var userid = $("div#login #username").val();
+		var pwd = $("div#login #password").val();
+
+		if (userid == '' || pwd == '' ) {
+			console.log("userid and password required");
+			return false;
+		}
+
+		var data = { user: userid, password: pwd }
+		$.ajax({
+			type: 'post',
+			url: '/morelists/login',
+			dataType: 'json',
+			data: data,
+			success: function(result) {
+		  		if (result.code == 0 ) {
+		  			getMovies();
+					setMovieUserId(userid);
+	  				$("div#login").dialog('close');
+		  		}
+		  		else {
+					alert("invalid userid/password");
+		  		}
+			},
+			error: function(message) {
+				alert("System error, unable to login");
+			}
+		});
+	}
 
 	function editMovie(event) {
 	  var $colmn = $(event.target);
@@ -70,6 +124,8 @@ function(tpl ) {
 		$('div.addmore input#genre').val(movie.Genre);
 		$('div.addmore input#notes').val(movie.Notes);
 		$('div.addmore input#length').val(movie.Length);
+		$('div.addmore #moviefor').val(movie.WhoFor);
+
 		var stream = false;
 		if ( movie.Streaming === 'true' ) {
 		  stream = true;
@@ -83,6 +139,7 @@ function(tpl ) {
 		$("#notes").val('');
 		$("#genre").val('');
 		$("#length").val('');
+		$("#moviefor").val('both');
 		$("#objectid").val('');
 		//$("#streaming").val('');
 
@@ -98,6 +155,7 @@ function(tpl ) {
 		var genre = $("#genre").val().trim();
 		var length = $("#length").val().trim();
 		var streaming = $("#streaming").is(':checked');
+		var whofor = $("#moviefor").val();
 		var id = $("#objectid").val();
 
 		if ( title === '' ){
@@ -110,13 +168,15 @@ function(tpl ) {
 		  id = 0;
 		}
 
-		saveMovie(id, title, notes, genre, length, streaming);
+		saveMovie(id, title, notes, genre, length, streaming, whofor);
 		closeAddSection();
 		getMovies();
 	}
 
-	function saveMovie(movieid, title, notes, genre, length, streaming) {
-		var data = { id: movieid, title: title, notes: notes, genre: genre, length: length, streaming: streaming}
+	function saveMovie(movieid, title, notes, genre, length, streaming, whofor) {
+		var data = { id: movieid, title: title, notes: notes, 
+		  			genre: genre, length: length, streaming: streaming,
+					whofor: whofor }
 
 		$.ajax({
 			type: 'post',
@@ -146,19 +206,21 @@ function(tpl ) {
 			dataType: 'json',
 			data: data,
 			success: function(movieData) {
-		  	if (movieData.code == 0 ) {
-				var xxx = Mustache.to_html(tpl, movieData);
-				$('div.movielist').html(xxx);
-		  	}
-		  	else {
-				alert("Error unable " + movieData.results) 
-		  	}
+		  		if (movieData.code == 0 ) {
+				  movieData.movieuserid = getMovieUserId();
+					var xxx = Mustache.to_html(tpl, movieData);
+					$('div.movielist').html(xxx);
+		  		}
+		  		else {
+					alert("Error unable " + movieData.results) 
+		  		}
 			},
 			error: function(message) {
 				// TODO ** response is always error; even when success
-		  	console.log("getTags ERROR: " + message);
-		  	alert("Errors getting movies");
-		}});
+		  		console.log("getMovies ERROR: " + message);
+		  		alert("Errors getting movies"); 
+			}
+		});
 	} //getMovies
 
 	function getMovieById(movieid) {
@@ -191,4 +253,11 @@ function(tpl ) {
     		return false;
   		}
 	}
+	function setMovieUserId(userid) {
+		localStorage["movieUserId"] = userid;
+	}
+	function getMovieUserId() {
+		return localStorage["movieUserId"];
+	}
 });
+

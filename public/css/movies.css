@@ -12,17 +12,16 @@ body {
   background: -moz-linear-gradient(top, #25303C 0%, #728EAA 100%);
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #25303C), color-stop(100%, #728EAA));
   font-family: sans-serif;
+  max-width: 1100px;
 }
 
 .movielist {
-  width: 800px;
+  /* width: 800px; */
   background: #c9d0de;
   border: 1px solid #e1e1e1;
   -moz-box-shadow: 0px 0px 8px #444;
   -webkit-box-shadow: 0px 0px 8px #444;
-}
 
-.movielist {
   border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;
   margin: 40px 0 40px 30px;
   color: #333;
@@ -34,6 +33,7 @@ body {
 .addmore{
   border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;
   background-color: #333;
+  clear: both;
   color: white;
   line-height: 2em;
   margin: 0 0 20px 0;
@@ -60,19 +60,16 @@ body {
 .addmore div.col2 {
   float: left;
   margin-left: 10px;
-  width: 150px
+  width: 250px
 }
 .addmore label {
 	float: left; 
-/*	clear: left; */
 	margin: 0px 15px 0 0; 
 	width: 95px;
 	text-align: right; 
-	/* font-size: 16px; 
-	color: #445668;
-	
-	text-transform: uppercase; 
-	text-shadow: 0px 1px 0px #f2f2f2; */
+}
+.addmore col2 label {
+  width: 80px;
 }
 .addmore input {
 	width: 260px; 
@@ -84,7 +81,7 @@ body {
 	border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;
 	-moz-box-shadow: 0px 1px 0px #f2f2f2;-webkit-box-shadow: 0px 1px 0px #f2f2f2;
 	/* font-family: sans-serif;  */
-	font-size: 1.2em;
+	font-size: 1.0em;
 	color: #f2f2f2; 
 }
 .addmore input.button {
@@ -93,12 +90,31 @@ body {
 .addmore input#streaming{
   width: 15px;
 }
+.addmore select {
+  float: left;
+}
 
 input::-webkit-input-placeholder  {
    	color: #a1b2c3; text-shadow: 0px -1px 0px #38506b;
 }
 input:-moz-placeholder {
 	color: #a1b2c3; text-shadow: 0px -1px 0px #38506b;
+}
+
+#login div {
+  margin-top: 5px;
+}
+#login label {
+  float: left;
+  width: 90px;
+}
+#login input {
+  width: 100px;
+}
+#login .buttonrow input#ok {
+  border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px;
+  margin: 10px 0 0 90px;
+  width: 80px;
 }
 
 .addmore .buttons {
@@ -127,9 +143,32 @@ input:-moz-placeholder {
 .addmore input#rating {
   width: 90px;
 }
-.addmore input#length {
+.admore input#length {
   float: left;
   width: 90px;
+}
+
+div.movie.row div.col.primary,
+div.movie.row div.header.primary {
+  display: inline;
+}
+div.movie.row div.col,
+div.movie.row div.header {
+  display: none;
+}
+
+@media screen and (min-width: 700px) {
+	div.movie.row div.col.secondary,
+	div.movie.row div.header.secondary{
+		display: inline;
+	}
+}
+
+@media screen and (min-width: 900px) {
+	div.movie.row div.col,
+	div.movie.row div.header{
+		display: inline;   /* over 900, show everything */
+	}
 }
 
 .movielist .edit {
@@ -139,11 +178,14 @@ input:-moz-placeholder {
 .movielist .title {
   width: 180px;
 }
-.movielist .rating {
+.movielist .genre {
   width: 80px;
 }
 .movielist .notes {
   width: 200px;
+}
+.movielist .whofor {
+  width: 50px;
 }
 .movielist .length {
   width: 55px;
@@ -155,3 +197,18 @@ input:-moz-placeholder {
   text-align: center;
   width: 80px;
 }
+
+.foo1 {
+  float: right;
+}
+
+.welcome h3 {
+	padding: 0;
+	line-height: 1.2em;
+}
+.welcome:after { content: "."; display: none; clear: both; }
+.welcome h3 { float: left; }
+.welcome div { float: right; text-transform: lowercase; }
+.welcome a:link { line-height: 0.9em; text-decoration: none; }
+.welcome { margin: 10px 0; width: 100%; }
+

@@ -1,4 +1,15 @@
 - content_for :header do
   %script{ :src =>"/app/movies.js", :type => "text/javascript"}
   
+#login{:style => "display:none"}
+  .user
+    %label User name
+    %input{:type => "text", :name => "user", :id => "username", :maxlength => 10}
+  .password
+    %label Password
+    %input{:type => "password", :name => "pwd", :id => "password", :maxlength => 8}
+
+  .buttonrow
+    %input{:type => "button", :id => "ok", :value => "login" }
+
 .movielist

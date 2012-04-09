@@ -1,5 +1,7 @@
 
-<h3>Movies</h3>
+<div class="welcome">
+  <h3>Movies</h3> <div>{{movieuserid}} <a class="loginlink" href="#">[change]</a></div>
+</div>
 <div class="addmore">
   <span class="action">Add a movie ...</span> 
   <div class="new-movie">
@@ -8,11 +10,20 @@
 		<input type="text" maxlength="90" id="title" placeholder="movie title"/>
   	</div>
 	<div class="col2">
-	  <input type="checkbox" id="streaming" /> Netflix/Amazon
+	  <label>Netflix/Amazon</label>
+	  <input type="checkbox" id="streaming" /> 
 	</div>
 	<div class="col1">
 		<label>Genre</label>
 		<input type="text" maxlength="90" id="genre" placeholder="genre(s)"/>
+  	</div>
+	<div class="col2">
+		<label>Who?</label>
+		<select id="moviefor">
+			<option value="both">both</option>
+			<option value="ethan">ethan</option>
+			<option value="lucas">lucas</option>
+		</select>
   	</div>
 	<div class="col1">
 		<label>Notes</label>
@@ -36,22 +47,24 @@
 </div>
 <div>
   <div class="movie row header">
-	<div class="col edit">&nbsp;</div>
-	<div class="col title">Title</div>
-	<div class="col rating">Genre</div>
+	<div class="col edit primary">&nbsp;</div>
+	<div class="col title primary">Title</div>
+	<div class="col genre primary">Genre</div>
 	<div class="col notes">Notes</div>
-	<div class="col length">Length</div>
-	<div class="col url">IMDB</div>
+	<div class="col whofor secondary">For</div>
+	<div class="col length secondary">Length</div>
+	<div class="col url secondary">IMDB</div>
 	<div class="col streaming">Streaming?</div>
   </div>
   {{#results}}
   <div class="movie row data" movieid="{{id}}">
-	<div class="col edit"><img src="images/edit-pen.png"/></div>
-  	<div class="col title"> {{Title}} </div>
-  	<div class="col rating"> {{Genre}}&nbsp; </div>
+	<div class="col edit primary"><img src="images/edit-pen.png"/></div>
+  	<div class="col title primary"> {{Title}} </div>
+  	<div class="col genre primary"> {{Genre}}&nbsp; </div>
   	<div class="col notes"> {{Notes}} &nbsp;</div>
-  	<div class="col length"> {{Length}} &nbsp;</div>
-	<div class="col url"> <a href='{{Url}}' target='new'>Search</a>&nbsp;</div>
+  	<div class="col whofor secondary"> {{WhoFor}} &nbsp;</div>
+  	<div class="col length secondary"> {{Length}} &nbsp;</div>
+	<div class="col url secondary"> <a href='{{Url}}' target='new'>Search</a>&nbsp;</div>
 	<div class="col streaming"> 
 	  <input type="checkbox" disabled='disabled' {{#Streaming}}checked='checked'{{/Streaming}} /> &nbsp;
 	</div>
