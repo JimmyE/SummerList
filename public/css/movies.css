@@ -182,6 +182,7 @@ div.movie.row div.header {
 }
 */
 .movielist div.movie.row.data {
+  clear: left;
   float: left;
   border-bottom: 1px gray solid; 
 }
