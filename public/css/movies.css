@@ -157,19 +157,24 @@ div.movie.row div.header {
   display: none;
 }
 
-@media screen and (min-width: 730px) {
+@media screen and (min-device-width: 768px) and (min-width: 730px) {
 	div.movie.row div.col.secondary,
 	div.movie.row div.header.secondary{
 		display: inline;
 	}
 }
 
-@media screen and (min-width: 980px) {
+@media screen and (min-device-width: 768px) and (min-width: 980px) {
 	div.movie.row div.col,
 	div.movie.row div.header{
 		display: inline;   /* over 900, show everything */
 	}
 }
+
+/*
+@media screen and (max-device-width: 480px) {
+}
+*/
 
 /*
 .movielist div.movie.row.data:nth-child(even) {
