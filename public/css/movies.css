@@ -37,9 +37,9 @@ body {
   color: white;
   line-height: 2em;
   margin: 0 0 20px 0;
+  max-width: 750px;
 }
 .addmore .new-movie {
-  /* visibility: hidden;*/
   display: none;
 }
 .movielist .addmore:hover {
@@ -176,16 +176,16 @@ div.movie.row div.header {
   width: 30px;
 }
 .movielist .title {
-  width: 180px;
+  width: 200px;
 }
 .movielist .genre {
-  width: 80px;
+  width: 120px;
 }
 .movielist .notes {
   width: 200px;
 }
 .movielist .whofor {
-  width: 50px;
+  width: 70px;
 }
 .movielist .length {
   width: 55px;
