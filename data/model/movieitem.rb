@@ -11,6 +11,7 @@ class MovieItem
   key :Notes
   key :Genre
   key :DateAdded, Date
+  key :AddedBy
   key :Length
   key :Streaming, Boolean   # Netflix or Amazon Prime
   key :WhoFor     #ethan, lucas or both

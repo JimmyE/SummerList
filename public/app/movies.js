@@ -46,12 +46,10 @@ function(tpl) {
 			alert("A browser with html5 support required");
 	  		return;
 		}
-		//var savedUser = getMovieUserId();
 		//var savedUser = undefined;
-		var savedUser = 'jim';
-		console.log("saved user: " + savedUser);
+		//var savedUser = 'jim';
+		var savedUser = getMovieUserId();
 		if ( savedUser == undefined ) {
-			//$('input#userid').val($savedUser);
 			showLogin();	
 		}
 		else {
@@ -157,6 +155,7 @@ function(tpl) {
 		var streaming = $("#streaming").is(':checked');
 		var whofor = $("#moviefor").val();
 		var id = $("#objectid").val();
+		var currentuser = getMovieUserId();
 
 		if ( title === '' ){
 		  alert("title is required");
@@ -168,15 +167,15 @@ function(tpl) {
 		  id = 0;
 		}
 
-		saveMovie(id, title, notes, genre, length, streaming, whofor);
+		saveMovie(id, title, notes, genre, length, streaming, whofor, currentuser);
 		closeAddSection();
 		getMovies();
 	}
 
-	function saveMovie(movieid, title, notes, genre, length, streaming, whofor) {
+	function saveMovie(movieid, title, notes, genre, length, streaming, whofor, currentuser) {
 		var data = { id: movieid, title: title, notes: notes, 
 		  			genre: genre, length: length, streaming: streaming,
-					whofor: whofor }
+					whofor: whofor, user: currentuser }
 
 		$.ajax({
 			type: 'post',

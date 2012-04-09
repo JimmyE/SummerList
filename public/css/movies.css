@@ -37,7 +37,7 @@ body {
   color: white;
   line-height: 2em;
   margin: 0 0 20px 0;
-  max-width: 750px;
+  max-width: 880px;
 }
 .addmore .new-movie {
   display: none;
@@ -157,20 +157,29 @@ div.movie.row div.header {
   display: none;
 }
 
-@media screen and (min-width: 700px) {
+@media screen and (min-width: 730px) {
 	div.movie.row div.col.secondary,
 	div.movie.row div.header.secondary{
 		display: inline;
 	}
 }
 
-@media screen and (min-width: 900px) {
+@media screen and (min-width: 980px) {
 	div.movie.row div.col,
 	div.movie.row div.header{
 		display: inline;   /* over 900, show everything */
 	}
 }
 
+/*
+.movielist div.movie.row.data:nth-child(even) {
+  background-color: red;
+}
+*/
+.movielist div.movie.row.data {
+  float: left;
+  border-bottom: 1px gray solid; 
+}
 .movielist .edit {
   clear: left;
   width: 30px;
@@ -192,6 +201,10 @@ div.movie.row div.header {
 }
 .movielist .url {
   width: 45px;
+}
+.movielist .addedby {
+  text-align: center;
+  width: 80px;
 }
 .movielist .streaming {
   text-align: center;

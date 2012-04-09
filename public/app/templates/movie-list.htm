@@ -50,24 +50,26 @@
 	<div class="col edit primary">&nbsp;</div>
 	<div class="col title primary">Title</div>
 	<div class="col genre primary">Genre</div>
-	<div class="col notes">Notes</div>
-	<div class="col whofor secondary">For</div>
+	<div class="col notes secondary">Notes</div>
+	<div class="col whofor">For</div>
 	<div class="col length secondary">Length</div>
 	<div class="col url secondary">IMDB</div>
 	<div class="col streaming">Streaming?</div>
+	<div class="col addedby">Added by</div>
   </div>
   {{#results}}
   <div class="movie row data" movieid="{{id}}">
 	<div class="col edit primary"><img src="images/edit-pen.png"/></div>
   	<div class="col title primary"> {{Title}} </div>
   	<div class="col genre primary"> {{Genre}}&nbsp; </div>
-  	<div class="col notes"> {{Notes}} &nbsp;</div>
-  	<div class="col whofor secondary"> {{WhoFor}} &nbsp;</div>
+  	<div class="col notes secondary"> {{Notes}} &nbsp;</div>
+  	<div class="col whofor"> {{WhoFor}} &nbsp;</div>
   	<div class="col length secondary"> {{Length}} &nbsp;</div>
 	<div class="col url secondary"> <a href='{{Url}}' target='new'>Search</a>&nbsp;</div>
 	<div class="col streaming"> 
 	  <input type="checkbox" disabled='disabled' {{#Streaming}}checked='checked'{{/Streaming}} /> &nbsp;
 	</div>
+  	<div class="col addedby"> {{AddedBy}} &nbsp;</div>
   </div>
   {{/results}}
 </div>

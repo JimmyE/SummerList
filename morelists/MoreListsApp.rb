@@ -55,10 +55,13 @@ class MoreListsApp < Sinatra::Base
 	  if id == '0'  
 		mi = MovieItem.new
 		mi.DateAdded = DateTime.now
+		mi.AddedBy = params['user']
 	  else 
 		mi = MovieItem.find(BSON::ObjectId(id))
 	  end
 	  
+		mi.AddedBy = params['user'] ## TEMP ****
+
 	  mi.Title = params['title']
 	  mi.Notes = params['notes']
 	  mi.Genre = params['genre']
