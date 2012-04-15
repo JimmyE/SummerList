@@ -10,8 +10,13 @@
 		<input type="text" maxlength="90" id="title" placeholder="movie title"/>
   	</div>
 	<div class="col2">
-	  <label>Netflix/Amazon</label>
-	  <input type="checkbox" id="streaming" /> 
+	  <label>Media</label>
+		<select id="media">
+			<option value="">&nbsp;</option>
+			<option value="netflix">Netflix</option>
+			<option value="amazon">Amazon</option>
+			<option value="dvd">Dvd</option>
+		</select>
 	</div>
 	<div class="col1">
 		<label>Genre</label>
@@ -48,26 +53,34 @@
 <div>
   <div class="movie row header">
 	<div class="col edit primary">&nbsp;</div>
+	<div class="col detail primary">&nbsp;</div>
 	<div class="col title primary">Title</div>
 	<div class="col genre primary">Genre</div>
 	<div class="col notes secondary">Notes</div>
 	<div class="col whofor">For</div>
 	<div class="col length secondary">Length</div>
 	<div class="col url secondary">IMDB</div>
-	<div class="col streaming">Streaming?</div>
+	<div class="col media">Media</div>
 	<div class="col addedby">Added by</div>
   </div>
   {{#results}}
   <div class="movie row data" movieid="{{id}}">
 	<div class="col edit primary"><img src="images/edit-pen.png"/></div>
-  	<div class="col title primary"> {{Title}} </div>
+	<div class="col detail primary">&nbsp; </div>
+	<!-- <img src="images/detail-glass.png"/></div> -->
+  	<div class="col title primary"> {{Title}}
+	  <div class="col movie-info"></div>
+  	</div>
   	<div class="col genre primary"> {{Genre}}&nbsp; </div>
   	<div class="col notes secondary"> {{Notes}} &nbsp;</div>
   	<div class="col whofor"> {{WhoFor}} &nbsp;</div>
   	<div class="col length secondary"> {{Length}} &nbsp;</div>
 	<div class="col url secondary"> <a href='{{Url}}' target='new'>Search</a>&nbsp;</div>
-	<div class="col streaming"> 
+	<div class="col media"> 
+	  {{Media}}&nbsp;
+	  <!--
 	  <input type="checkbox" disabled='disabled' {{#Streaming}}checked='checked'{{/Streaming}} /> &nbsp;
+	  -->
 	</div>
   	<div class="col addedby"> {{AddedBy}} &nbsp;</div>
   </div>

@@ -66,6 +66,7 @@ class MoreListsApp < Sinatra::Base
 	  mi.Length = params['length']
 	  mi.Streaming = params['streaming']
 	  mi.WhoFor = params['whofor']
+	  mi.Media = params['media']
 
 	  info "Add movie '#{mi.Title}'  Notes: #{mi.Notes}  Genre: #{mi.Genre} Added #{mi.DateAdded} Streaming: #{mi.Streaming}"
 	  repo = MovieListRepo.new

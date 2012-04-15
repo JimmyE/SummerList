@@ -15,6 +15,7 @@ class MovieItem
   key :Length
   key :Streaming, Boolean   # Netflix or Amazon Prime
   key :WhoFor     #ethan, lucas or both
+  key :Media    # amazon, netflix, dv\
 
   key :Rating
   key :Url

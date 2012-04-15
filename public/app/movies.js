@@ -1,10 +1,11 @@
 define( 
 [
 "text!../app/templates/movie-list.htm",
+"text!../app/templates/movie-info.htm",
 "jquery", 
 "jquery-ui"
 ],
-function(tpl) {
+function(tpl, detailTpl) {
 	initialize();
 
 	function initialize() {
@@ -23,6 +24,12 @@ function(tpl) {
 			saveUpdateMovie();
 		});
 
+		$('.movielist').on('click', 'div.closebox', function(event, ui) {
+			event.preventDefault();
+	  		var $openInfo = $('.movie-info:visible');
+	  		$openInfo.hide("slide", {}, 800);
+		});
+
 		$('.movielist').on('keypress', 'div.addmore input', function(event, ui) {
 		  var code = event.keyCode || event.which;
 		  if (code == 13 ) {
@@ -31,11 +38,18 @@ function(tpl) {
 		});
 
 		$('.movielist').on('dblclick', 'div.row.data', function(event) {
-		  editMovie(event);
+			if ($('.movie-info').is(':visible')) {
+			  return;  //ignore dbl-clicks while details are shown
+			}
+			detailsClicked(event);
 		});
 
 		$('.movielist').on('click', 'div.col.edit', function(event) {
 		  editMovie(event);
+		});
+
+		$('.movielist').on('click', 'div.col.detail', function(event) {
+		  detailsClicked(event);
 		});
 
 		$('.movielist').on('click', 'a.loginlink', function(event) {
@@ -100,9 +114,26 @@ function(tpl) {
 	}
 
 	function editMovie(event) {
-	  var $colmn = $(event.target);
-	  var movieid = $colmn.closest('div.row').attr('movieid');
-	  getMovieById(movieid);
+	  var $column = $(event.target);
+	  var movieid = $column.closest('div.row').attr('movieid');
+	  getMovieById(movieid, addEditMovie);
+	}
+
+	function detailsClicked(event) {
+	  var $column = $(event.target);
+	  if ($column.hasClass('movie-info') ){
+		console.log("popup-clicked while it was opened");
+		return;
+	  }
+
+	  var $openInfo = $('.movie-info:visible');
+	  $openInfo.hide("slide", {}, 800);
+
+	  var movieid = $column.closest('div.row').attr('movieid');
+	  var $info = $column.closest('div.row').find('.movie-info');
+	  //$info.show("slide", {}, 800);
+
+	  getMovieById(movieid, displayDetails, $info);
 	}
 
 	function addEditMovie(movie) {
@@ -123,12 +154,8 @@ function(tpl) {
 		$('div.addmore input#notes').val(movie.Notes);
 		$('div.addmore input#length').val(movie.Length);
 		$('div.addmore #moviefor').val(movie.WhoFor);
+		$('div.addmore #media').val(movie.Media);
 
-		var stream = false;
-		if ( movie.Streaming === true ) {
-		  stream = true;
-		}
-		$('div.addmore input#streaming').prop("checked", stream);
 		$('div.addmore input#objectid').val(movie.id);
 	}
 
@@ -139,7 +166,6 @@ function(tpl) {
 		$("#length").val('');
 		$("#moviefor").val('both');
 		$("#objectid").val('');
-		//$("#streaming").val('');
 
 		$('div.addmore span.action').text('Add a movie ....');
 		var $addDiv = $('div.new-movie');
@@ -152,7 +178,7 @@ function(tpl) {
 		var notes = $("#notes").val().trim();
 		var genre = $("#genre").val().trim();
 		var length = $("#length").val().trim();
-		var streaming = $("#streaming").is(':checked');
+		var media = $("#media").val();
 		var whofor = $("#moviefor").val();
 		var id = $("#objectid").val();
 		var currentuser = getMovieUserId();
@@ -167,14 +193,13 @@ function(tpl) {
 		  id = 0;
 		}
 
-		saveMovie(id, title, notes, genre, length, streaming, whofor, currentuser);
+		saveMovie(id, title, notes, genre, length, media, whofor, currentuser);
 		closeAddSection();
-		getMovies();
 	}
 
-	function saveMovie(movieid, title, notes, genre, length, streaming, whofor, currentuser) {
+	function saveMovie(movieid, title, notes, genre, length, media, whofor, currentuser) {
 		var data = { id: movieid, title: title, notes: notes, 
-		  			genre: genre, length: length, streaming: streaming,
+		  			genre: genre, length: length, media: media,
 					whofor: whofor, user: currentuser }
 
 		$.ajax({
@@ -184,7 +209,7 @@ function(tpl) {
 			data: data,
 			success: function(results) {
 		  		if (results.code == 0 ) {
-				  //console.log("Success on addmovie");
+					getMovies();
 		  		}
 		  		else {
 					alert("Error unable add movie" + results.code) 
@@ -222,7 +247,12 @@ function(tpl) {
 		});
 	} //getMovies
 
-	function getMovieById(movieid) {
+	function getMovieById(movieid, successFunction, successArg1) {
+	  if (movieid === undefined) {
+		console.log ("getMovieById() error, movieid is 'undefined'");
+		return;
+	  }
+
 		var data = {'movieid': movieid};
 		$.ajax({
 			type: 'get',
@@ -232,7 +262,8 @@ function(tpl) {
 			success: function(movieData) {
 		  	if (movieData.code == 0 ) {
 				//console.log(" results: " + movieData.results);
-	  			addEditMovie(movieData.results);
+	  			//addEditMovie(movieData.results);
+	  			successFunction(movieData.results, successArg1);
 		  	}
 		  	else {
 				alert("Error unable " + movieData.results) 
@@ -240,10 +271,17 @@ function(tpl) {
 			},
 			error: function(message) {
 				// TODO ** response is always error; even when success
-		  	console.log("getTags ERROR: " + message);
-		  	alert("Errors getting movies");
+		  	console.log("getMovieById failed: " + message + " movieid: " + movieid);
+		  	alert("Errors getting movies by id");
 		}});
 	} //getMovieById
+
+	function displayDetails(movieData, $detailDiv) {
+		$detailDiv.show("slide", {}, 800);
+
+		var xxx = Mustache.to_html(detailTpl, movieData);
+		$detailDiv.html(xxx);
+	}
 
 	function supports_html5_storage() {
   		try {

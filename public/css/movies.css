@@ -87,8 +87,8 @@ body {
 .addmore input.button {
   font-size: 1.0em;
 }
-.addmore input#streaming{
-  width: 15px;
+.addmore select#media{
+  width: 75px;
 }
 .addmore select {
   float: left;
@@ -185,10 +185,38 @@ div.movie.row div.header {
   clear: left;
   float: left;
   border-bottom: 1px gray solid; 
+  height: 24px;
 }
 .movielist .edit {
   clear: left;
   width: 30px;
+  cursor: pointer; 
+}
+.movielist .detail {
+  width: 25px;
+}
+.movielist .row.data .detail {
+  background-image: url('../images/detail-glass.png');
+  background-repeat: no-repeat;
+  margin: 2px;
+  cursor: pointer; 
+}
+.movielist div.row.data div.movie-info {
+  display: none;
+  background: #728eaa;
+  border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;
+  /*
+  background: #728eaa;
+  background: -moz-linear-gradient(top, #25303C 0%, #728EAA 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #25303C), color-stop(100%, #728EAA));
+  */
+  border: 1px solid black;
+  height: 200px;
+  left: 50px;
+  padding: 10px;
+  position: relative;
+  top: -20px;
+  width: 500px;
 }
 .movielist .title {
   width: 200px;
@@ -212,14 +240,50 @@ div.movie.row div.header {
   text-align: center;
   width: 80px;
 }
-.movielist .streaming {
+.movielist .media {
   text-align: center;
   width: 80px;
 }
 
+.movielist .detail-popup div.title-row {
+  float: left;
+  margin: 5px 0 10px 0;
+  padding-left: 20px;
+  width: 100%;
+}
+.movielist .detail-popup div.title-row .title{
+  font-weight: bold;
+  font-size: 1.3em;
+  float: left;
+  width: 90%;
+}
+.movielist .detail-popup div.closebox{
+	background: url('../images/close-dark.png') no-repeat right;
+	float: left;
+	width: 30px; 
+	cursor: pointer;
+}
+.movielist .detail-popup .col1,
+.movielist .detail-popup .col2 {
+  float: left;
+  width: 50%;
+}
+.movielist .detail-popup div.row {
+  float: left;
+  margin-top: 2px;
+  width: 100%;
+}
+.movielist .detail-popup .label {
+  float: left;
+  font-weight: bold;
+  width: 60px;
+}
+
+/*
 .foo1 {
   float: right;
 }
+*/
 
 .welcome h3 {
 	padding: 0;

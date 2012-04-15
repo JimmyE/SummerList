@@ -8,6 +8,6 @@ require.config({
 require(["jquery", "jquery-ui", "mustache" ], 
 	function($) {
   	//"jquery-ui" : "https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min"
-	  console.log("Test 123");
+	//  console.log("Test 123");
 });
 
