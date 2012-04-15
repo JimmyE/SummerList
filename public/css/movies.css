@@ -164,23 +164,13 @@ div.movie.row div.header {
 	}
 }
 
-@media screen and (min-device-width: 768px) and (min-width: 980px) {
+@media screen and (min-device-width: 960px) { 
 	div.movie.row div.col,
 	div.movie.row div.header{
-		display: inline;   /* over 900, show everything */
+		display: inline;    /* over 900, show everything */
 	}
 }
 
-/*
-@media screen and (max-device-width: 480px) {
-}
-*/
-
-/*
-.movielist div.movie.row.data:nth-child(even) {
-  background-color: red;
-}
-*/
 .movielist div.movie.row.data {
   clear: left;
   float: left;
@@ -216,7 +206,7 @@ div.movie.row div.header {
   padding: 10px;
   position: relative;
   top: -20px;
-  width: 500px;
+  width: 400px;
 }
 .movielist .title {
   width: 200px;
