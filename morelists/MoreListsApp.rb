@@ -44,6 +44,7 @@ class MoreListsApp < Sinatra::Base
 	@movies.each do |movie|
 	  buffer = movie.Title.split().join('+')
 	  movie.Url = baseUrl + buffer + '&s=all'
+	  #info "movie url: #{movie.Url}"
 	end
 
 	{ :code => 0, :results => @movies}.to_json

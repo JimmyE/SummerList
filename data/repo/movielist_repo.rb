@@ -11,8 +11,8 @@ class MovieListRepo
   end
 
   def GetAll
-	#movieList = MovieItem.all.sort({ Title :1 })
-	movieList = MovieItem.sort(:Title)
+	movieList = MovieItem.all
+	#movieList = MovieItem.sort(:Title)  #the 'Url' property doesn't get serialized in json
 	movieList
   end
 
