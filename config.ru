@@ -11,3 +11,6 @@ end
 map "/morelists" do
   run MoreListsApp
 end
+map "/movies" do
+  run MoreListsApp
+end

@@ -11,7 +11,8 @@ class MovieListRepo
   end
 
   def GetAll
-	movieList = MovieItem.all
+	#movieList = MovieItem.all.sort({ Title :1 })
+	movieList = MovieItem.sort(:Title)
 	movieList
   end
 
