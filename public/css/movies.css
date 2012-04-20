@@ -148,6 +148,10 @@ input:-moz-placeholder {
   width: 90px;
 }
 
+div.movie.row span.sortable:hover {
+  cursor: pointer; 
+}
+
 div.movie.row div.col.primary,
 div.movie.row div.header.primary {
   display: inline;

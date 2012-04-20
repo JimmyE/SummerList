@@ -39,7 +39,11 @@ class MoreListsApp < Sinatra::Base
 
   post "/movies" do
 	repo = MovieListRepo.new
-	@movies = repo.GetAll
+	#@movies = repo.GetAll
+	#@movies = repo.GetAlLSortBy("Title")
+	sortField = params['orderby']
+	@movies = repo.GetAlLSortBy(sortField)
+
 	baseUrl = "http://www.imdb.com/find?q="
 	@movies.each do |movie|
 	  buffer = movie.Title.split().join('+')

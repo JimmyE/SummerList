@@ -54,14 +54,14 @@
   <div class="movie row header">
 	<div class="col edit primary">&nbsp;</div>
 	<div class="col detail primary">&nbsp;</div>
-	<div class="col title primary">Title</div>
-	<div class="col genre primary">Genre</div>
-	<div class="col notes secondary">Notes</div>
-	<div class="col whofor">For</div>
-	<div class="col length secondary">Length</div>
+	<div class="col title primary"><span class="sortable" sortkey="Title">Title</span></div>
+	<div class="col genre primary"><span class="sortable" sortkey="Genre">Genre</span></div>
+	<div class="col notes secondary"><span class="sortable" sortkey="Notes">Notes</span></div>
+	<div class="col whofor"><span class="sortable" sortkey="WhoFor">For?</span></div>
+	<div class="col length secondary"><span class="sortable" sortkey="Length">Length</span></div>
 	<div class="col url secondary">IMDB</div>
-	<div class="col media secondary">Media</div>
-	<div class="col addedby">Added by</div>
+	<div class="col media secondary"><span class="sortable" sortkey="Media">Media</span></div>
+	<div class="col addedby"><span class="sortable" sortkey="AddedBy">Added by</span></div>
   </div>
   {{#results}}
   <div class="movie row data" movieid="{{id}}">

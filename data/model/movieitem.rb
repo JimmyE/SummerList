@@ -6,13 +6,13 @@ class MovieItem
 
   key :_id #, bson::ObjectID, :index => true
   
-  key :Username
-  key :Title
-  key :Notes
-  key :Genre
+  key :Username, String
+  key :Title, String
+  key :Notes, String
+  key :Genre, String
   key :DateAdded, Date
-  key :AddedBy
-  key :Length
+  key :AddedBy, String
+  key :Length, Integer
   key :Streaming, Boolean   # Netflix or Amazon Prime
   key :WhoFor     #ethan, lucas or both
   key :Media    # amazon, netflix, dv\

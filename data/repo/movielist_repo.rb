@@ -10,8 +10,14 @@ class MovieListRepo
   def initialize
   end
 
+  def GetAlLSortBy(field)
+	return MovieItem.all(:order => field)
+  end
+
   def GetAll
-	movieList = MovieItem.all
+	#movieList = MovieItem.all(:order => "Title")
+	movieList = MovieItem.all(:order => :Title.asc)
+	#movieList = MovieItem.all
 	#movieList = MovieItem.sort(:Title)  #the 'Url' property doesn't get serialized in json
 	movieList
   end

@@ -30,6 +30,11 @@ function(tpl, detailTpl) {
 	  		$openInfo.hide("slide", {}, 800);
 		});
 
+		$('.movielist').on('click', 'span.sortable', function(event, ui) {
+			event.preventDefault();
+			sortMovies(event);
+		});
+
 		$('.movielist').on('keypress', 'div.addmore input', function(event, ui) {
 		  var code = event.keyCode || event.which;
 		  if (code == 13 ) {
@@ -136,6 +141,11 @@ function(tpl, detailTpl) {
 	  getMovieById(movieid, displayDetails, $info);
 	}
 
+	function sortMovies(event) {
+	  var $column = $(event.target);
+	  getMovies($column.attr('sortkey'));
+	}
+
 	function addEditMovie(movie) {
 		var $addDiv = $('div.new-movie');
 		if (! $addDiv.hasClass('expanded')) {
@@ -222,8 +232,11 @@ function(tpl, detailTpl) {
 		});
 	}
 
-	function getMovies() {
-		var data = ''
+	function getMovies(sortBy) {
+	  if (sortBy == undefined) {
+		sortBy = "Title";
+	  }
+		var data = {orderby : sortBy}
 		$.ajax({
 			type: 'post',
 			url: '/morelists/movies',
