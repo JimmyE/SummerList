@@ -55,12 +55,14 @@ body {
 
 .addmore div.col1 {
   float: left;
-  width: 450px
 }
 .addmore div.col2 {
   float: left;
   margin-left: 10px;
-  width: 250px
+}
+.addmore div.field-set {
+  clear: left;
+  float: left;
 }
 .addmore label {
 	float: left; 
@@ -161,6 +163,11 @@ div.movie.row div.header {
   display: none;
 }
 
+@media screen and (max-device-width: 500px) {
+  .addmore {
+	max-width: 450px;
+  }
+}
 @media screen and (min-device-width: 768px) and (min-width: 730px) {
 	div.movie.row div.col.secondary,
 	div.movie.row div.header.secondary{
@@ -179,7 +186,7 @@ div.movie.row div.header {
   clear: left;
   float: left;
   border-bottom: 1px gray solid; 
-  height: 24px;
+  /* height: 24px; */
 }
 .movielist .edit {
   clear: left;
@@ -222,7 +229,7 @@ div.movie.row div.header {
   width: 200px;
 }
 .movielist .whofor {
-  width: 70px;
+  width: 50px;
 }
 .movielist .length {
   text-align: right;
@@ -241,7 +248,31 @@ div.movie.row div.header {
   text-align: center;
   width: 80px;
 }
-
+.movielist .votes {
+  width: 70px;
+}
+.movielist .votes span.pick {
+	background: url(../images/no-vote.png);
+	background-repeat: no-repeat;
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	cursor: pointer;
+	/*
+	 * need to resize images
+	width: 24px;
+	height: 24px;
+	*/
+}
+.movielist .votes span.selected {
+	background: url(../images/vote-yes.png);
+	width: 16px;
+	height: 16px;
+}
+.movielist .votes span.voter-roll {
+  padding-left: 5px;
+  width: 15px;
+}
 .movielist .detail-popup div.title-row {
   float: left;
   margin: 5px 0 10px 0;

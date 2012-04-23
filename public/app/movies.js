@@ -57,6 +57,10 @@ function(tpl, detailTpl) {
 		  detailsClicked(event);
 		});
 
+		$('.movielist').on('click', 'div.col.votes', function(event) {
+		  voteClicked(event);
+		});
+
 		$('.movielist').on('click', 'a.loginlink', function(event) {
 		  showLogin();
 		});
@@ -139,6 +143,27 @@ function(tpl, detailTpl) {
 	  //$info.show("slide", {}, 800);
 
 	  getMovieById(movieid, displayDetails, $info);
+	}
+
+	function voteClicked(event) {
+	  var $column = $(event.target);
+	  var movieid = $column.closest('div.row').attr('movieid');
+	  var addVote = true;
+
+	  if ($column.hasClass('selected')) {
+	  	$column.removeClass('selected');
+		addVote = false;
+	  }
+	  else {
+	  	var currentCnt = $('.votes span.selected').length;
+	  	if (currentCnt >= 3) {
+			alert("Only allowed 3 votes!");
+			return;
+	  	}
+	  	$column.addClass('selected');
+	  }
+
+	  addRemoveVote(movieid, addVote, $column.next('span.voter-roll'));
 	}
 
 	function sortMovies(event) {
@@ -232,6 +257,35 @@ function(tpl, detailTpl) {
 		});
 	}
 
+	function addRemoveVote( movieid, addVote, $voterRoll ) {
+		var currentuser = getMovieUserId();
+		var data = { movieid: movieid, user: currentuser }
+		url = '/morelists/removevote';
+		if (addVote) {
+		  url = '/morelists/addvote';
+		}
+
+		$.ajax({
+			type: 'post',
+			url: url,
+			dataType: 'json',
+			data: data,
+			success: function(response) {
+		  		if (response.code != 0 ) {
+					alert("Error unable change vote for movie" + response.code) 
+		  		}
+				else {
+					var votes = convertToShortNames(response.results);
+					$voterRoll.html(votes);
+				}
+			},
+			error: function(message) {
+				console.log("error on changing vote " + message);
+				alert("Error unable change vote for movie");
+			}
+		});
+	}
+
 	function getMovies(sortBy) {
 	  if (sortBy == undefined) {
 		sortBy = "Title";
@@ -244,9 +298,20 @@ function(tpl, detailTpl) {
 			data: data,
 			success: function(movieData) {
 		  		if (movieData.code == 0 ) {
-				  movieData.movieuserid = getMovieUserId();
-					var xxx = Mustache.to_html(tpl, movieData);
-					$('div.movielist').html(xxx);
+					movieData.movieuserid = getMovieUserId();
+
+					movieData.results.map( function (mv) {
+				  		mv.myvote = false;
+						mv.voteshort = '';
+						if ($.inArray(movieData.movieuserid, mv.Votes) >= 0) {
+						  mv.myvote = true;
+						}
+
+						mv.voteshort = convertToShortNames(mv.Votes);
+				  	});
+
+					var templateBuild = Handlebars.compile(tpl);
+					$('div.movielist').html(templateBuild(movieData));
 		  		}
 		  		else {
 					alert("Error unable " + movieData.results) 
@@ -259,6 +324,14 @@ function(tpl, detailTpl) {
 			}
 		});
 	} //getMovies
+
+	function convertToShortNames(voteList) {
+	  var results = '';
+		for (var i = 0; i < voteList.length; i++) {
+		  results = results + voteList[i].charAt(0) + " ";
+		}
+		return results;
+	}
 
 	function getMovieById(movieid, successFunction, successArg1) {
 	  if (movieid === undefined) {
@@ -292,8 +365,8 @@ function(tpl, detailTpl) {
 	function displayDetails(movieData, $detailDiv) {
 		$detailDiv.show("slide", {}, 800);
 
-		var xxx = Mustache.to_html(detailTpl, movieData);
-		$detailDiv.html(xxx);
+		var templateBuild = Handlebars.compile(detailTpl);
+		$detailDiv.html(templateBuild(movieData));
 	}
 
 	function supports_html5_storage() {
@@ -304,10 +377,14 @@ function(tpl, detailTpl) {
   		}
 	}
 	function setMovieUserId(userid) {
-		localStorage["movieUserId"] = userid;
+		localStorage["movieUserId"] = userid.toLowerCase();
 	}
 	function getMovieUserId() {
-		return localStorage["movieUserId"];
+		var id = localStorage["movieUserId"];
+		if ( id != undefined ) {
+		  id = id.toLowerCase();
+		}
+		return id;
 	}
 });
 

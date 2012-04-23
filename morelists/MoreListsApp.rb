@@ -104,4 +104,54 @@ class MoreListsApp < Sinatra::Base
 	mi = MovieItem.find(BSON::ObjectId(id))
 	{ :code => 0, :results => mi}.to_json
   end
+
+  post "/addvote" do
+	id = params['movieid']
+	user = params['user']
+	rc = 0
+
+	begin
+	  mi = MovieItem.find(BSON::ObjectId(id))
+
+	  if ( mi.Votes.count(user) > 0 )
+		info "Skip AddVote - User already voted: #{user} id: #{id}"
+	  else
+		mi.Votes.push( user )
+  
+		repo = MovieListRepo.new
+		repo.SaveMovie(mi)
+	  end
+
+	rescue StandardError => exc
+	  error! "AddVote failed. Exception: " + exc.to_s
+	  puts "AddVote failed : " + exc.to_s
+	  rc = 100
+	end
+
+	{ :code => rc, :results => mi.Votes }.to_json
+  end
+
+  post "/removevote" do
+	id = params['movieid']
+	user = params['user']
+	rc = 0
+
+	begin
+	  mi = MovieItem.find(BSON::ObjectId(id))
+	  if ( mi.Votes.count(user) > 0 )
+		mi.Votes.delete(user)
+  
+		repo = MovieListRepo.new
+		repo.SaveMovie(mi)
+		info "remove #{user} vote from mi.Title"
+	  end
+	
+	rescue StandardError => exc
+	  error! "RemoveVote failed. Exception: " + exc.to_s
+	  puts "RemoveVote failed : " + exc.to_s
+	  rc = 100
+	end
+
+	{ :code => rc, :results => mi.Votes }.to_json
+  end
 end

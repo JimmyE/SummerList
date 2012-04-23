@@ -6,37 +6,41 @@
   <span class="action">Add a movie ...</span> 
   <div class="new-movie">
 	<div class="col1">
-		<label>Title</label>
-		<input type="text" maxlength="90" id="title" placeholder="movie title"/>
+		<div class="field-set">
+			<label>Title</label>
+			<input type="text" maxlength="90" id="title" placeholder="movie title"/>
+  		</div>
+		<div class="field-set">
+			<label>Genre</label>
+			<input type="text" maxlength="90" id="genre" placeholder="genre(s)"/>
+  		</div>
+		<div class="field-set">
+			<label>Notes</label>
+			<input type="text" maxlength="90" id="notes" placeholder="additional info about movie"/>
+  		</div>
+		<div class="field-set">
+			<label>Length</label>
+			<input type="text" maxlength="90" id="length" placeholder="movie length"/>
+  		</div>
   	</div>
 	<div class="col2">
-	  <label>Media</label>
-		<select id="media">
-			<option value="">&nbsp;</option>
-			<option value="netflix">Netflix</option>
-			<option value="amazon">Amazon</option>
-			<option value="dvd">Dvd</option>
-		</select>
-	</div>
-	<div class="col1">
-		<label>Genre</label>
-		<input type="text" maxlength="90" id="genre" placeholder="genre(s)"/>
-  	</div>
-	<div class="col2">
-		<label>Who?</label>
-		<select id="moviefor">
-			<option value="both">both</option>
-			<option value="ethan">ethan</option>
-			<option value="lucas">lucas</option>
-		</select>
-  	</div>
-	<div class="col1">
-		<label>Notes</label>
-		<input type="text" maxlength="90" id="notes" placeholder="additional info about movie"/>
-  	</div>
-	<div class="col1">
-		<label>Length</label>
-		<input type="text" maxlength="90" id="length" placeholder="movie length"/>
+		<div class="field-set">
+	  		<label>Media</label>
+			<select id="media">
+				<option value="">&nbsp;</option>
+				<option value="netflix">Netflix</option>
+				<option value="amazon">Amazon</option>
+				<option value="dvd">Dvd</option>
+			</select>
+		</div>
+		<div class="field-set">
+			<label>Who?</label>
+			<select id="moviefor">
+				<option value="both">both</option>
+				<option value="ethan">ethan</option>
+				<option value="lucas">lucas</option>
+			</select>
+  		</div>
   	</div>
 
 	<input type="hidden" id="objectid" />
@@ -57,6 +61,7 @@
 	<div class="col title primary"><span class="sortable" sortkey="Title">Title</span></div>
 	<div class="col genre primary"><span class="sortable" sortkey="Genre">Genre</span></div>
 	<div class="col notes secondary"><span class="sortable" sortkey="Notes">Notes</span></div>
+	<div class="col votes primary">Votes</div>
 	<div class="col whofor"><span class="sortable" sortkey="WhoFor">For?</span></div>
 	<div class="col length secondary"><span class="sortable" sortkey="Length">Length</span></div>
 	<div class="col url secondary">IMDB</div>
@@ -73,6 +78,16 @@
   	</div>
   	<div class="col genre primary"> {{Genre}}&nbsp; </div>
   	<div class="col notes secondary"> {{Notes}} &nbsp;</div>
+	<div class="col votes primary">
+		{{#if myvote}}
+	  		<span class="pick selected"/>
+		{{else}}
+	  		<span class="pick"/>
+		{{/if}}
+		<span class="voter-roll">
+	  		{{voteshort}}
+		</span>
+	</div>
   	<div class="col whofor"> {{WhoFor}} &nbsp;</div>
   	<div class="col length secondary"> {{Length}} &nbsp;</div>
 	<div class="col url secondary"> <a href='{{Url}}' target='new'>Search</a>&nbsp;</div>

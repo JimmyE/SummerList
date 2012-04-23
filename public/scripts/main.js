@@ -5,10 +5,9 @@ require.config({
   }
 });
 
-require(["jquery", "jquery-ui", "mustache" ], 
+//require(["jquery", "jquery-ui", "mustache" ], 
+require(["jquery", "jquery-ui", "handlebars" ], 
 	function($) {
-
-		// required by Opera
-		require(['../app/movies.js']);
+		require(['../app/movies.js']); // required by Opera
 });
 
