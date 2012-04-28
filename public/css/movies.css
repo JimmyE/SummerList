@@ -73,6 +73,7 @@ body {
 .addmore col2 label {
   width: 80px;
 }
+.addmore textarea,
 .addmore input {
 	width: 260px; 
 	padding: 5px 20px 0px 20px; 
@@ -86,6 +87,14 @@ body {
 	font-size: 1.0em;
 	color: #f2f2f2; 
 }
+.addmore input#watched{
+  margin-left: 50px;
+  width: auto;
+}
+.addmore input#watched-date{
+  padding: 5px;
+  width: 85px;
+}
 .addmore input.button {
   font-size: 1.0em;
 }
@@ -94,6 +103,9 @@ body {
 }
 .addmore select {
   float: left;
+}
+.movielist div.filters {
+  margin: 5px 0 10px 0;
 }
 
 input::-webkit-input-placeholder  {
@@ -145,9 +157,9 @@ input:-moz-placeholder {
 .addmore input#rating {
   width: 90px;
 }
-.admore input#length {
+.addmore input#length {
   float: left;
-  width: 90px;
+  width: 45px;
 }
 
 div.movie.row span.sortable:hover {

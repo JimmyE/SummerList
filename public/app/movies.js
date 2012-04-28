@@ -3,7 +3,8 @@ define(
 "text!../app/templates/movie-list.htm",
 "text!../app/templates/movie-info.htm",
 "jquery", 
-"jquery-ui"
+"jquery-ui",
+"jquery-mask"
 ],
 function(tpl, detailTpl) {
 	initialize();
@@ -40,6 +41,14 @@ function(tpl, detailTpl) {
 		  if (code == 13 ) {
 			saveUpdateMovie();
 		  }
+		});
+
+		$('.movielist').on('click', 'div.addmore #watched', function(event, ui) {
+		  showHideWatchDate();
+		});
+
+		$('.movielist').on('click', 'div.filters #include-watched', function(event, ui) {
+			getMovies();
 		});
 
 		$('.movielist').on('dblclick', 'div.row.data', function(event) {
@@ -145,6 +154,15 @@ function(tpl, detailTpl) {
 	  getMovieById(movieid, displayDetails, $info);
 	}
 
+	function showHideWatchDate(){
+		if ( $('#watched').prop('checked')) {
+			$('#watched-date').show();
+		}
+		else {
+			$('#watched-date').hide();
+		}
+	}
+
 	function voteClicked(event) {
 	  var $column = $(event.target);
 	  var movieid = $column.closest('div.row').attr('movieid');
@@ -177,7 +195,10 @@ function(tpl, detailTpl) {
 	  		$addDiv.show(500);
 	  		$addDiv.addClass('expanded');
 	  	}
-		if (movie === undefined) {
+
+		$('div.new-movie input#length').mask('999');
+		if (movie === undefined) { 
+		  $('div.addmore .edit-only').hide();
 		  $("#title").focus();
 		  return;
 		}
@@ -186,12 +207,16 @@ function(tpl, detailTpl) {
 		$('div.addmore span.action').text('Edit movie');
 		$('div.addmore input#title').val(movie.Title);
 		$('div.addmore input#genre').val(movie.Genre);
-		$('div.addmore input#notes').val(movie.Notes);
+		$('div.addmore textarea#notes').val(movie.Notes);
 		$('div.addmore input#length').val(movie.Length);
 		$('div.addmore #moviefor').val(movie.WhoFor);
 		$('div.addmore #media').val(movie.Media);
 
 		$('div.addmore input#objectid').val(movie.id);
+		$('div.addmore .edit-only').show();
+		showHideWatchDate();
+		$('div.new-movie #watched-date').mask('99/99/9999');
+		$('div.new-movie #watched').prop("checked", movie.Watched);
 	}
 
 	function closeAddSection() {
@@ -216,6 +241,8 @@ function(tpl, detailTpl) {
 		var media = $("#media").val();
 		var whofor = $("#moviefor").val();
 		var id = $("#objectid").val();
+		var watched = $("#watched").prop('checked');
+		var watcheddate = $("#watched-date").val();
 		var currentuser = getMovieUserId();
 
 		if ( title === '' ){
@@ -228,14 +255,20 @@ function(tpl, detailTpl) {
 		  id = 0;
 		}
 
-		saveMovie(id, title, notes, genre, length, media, whofor, currentuser);
+		saveMovie(id, title, notes, genre, length, 
+				media, whofor, currentuser,
+				watched, watcheddate);
 		closeAddSection();
 	}
 
-	function saveMovie(movieid, title, notes, genre, length, media, whofor, currentuser) {
+	function saveMovie(movieid, title, notes, genre, 
+					length, media, whofor, currentuser,
+					watched, watcheddate) {
+
 		var data = { id: movieid, title: title, notes: notes, 
 		  			genre: genre, length: length, media: media,
-					whofor: whofor, user: currentuser }
+					whofor: whofor, user: currentuser,
+					watched: watched, watcheddate: watcheddate }
 
 		$.ajax({
 			type: 'post',
@@ -300,6 +333,10 @@ function(tpl, detailTpl) {
 		  		if (movieData.code == 0 ) {
 					movieData.movieuserid = getMovieUserId();
 
+					displayMovieList = [];
+
+					var includeWatch = $('div.filters #include-watched').prop('checked')
+
 					movieData.results.map( function (mv) {
 				  		mv.myvote = false;
 						mv.voteshort = '';
@@ -308,10 +345,19 @@ function(tpl, detailTpl) {
 						}
 
 						mv.voteshort = convertToShortNames(mv.Votes);
+
+						if (includeWatch || mv.Watched == false || mv.Watched == undefined) { 
+						  displayMovieList.push(mv);
+						}
 				  	});
 
+					var data = {};
+					data.results = displayMovieList;
 					var templateBuild = Handlebars.compile(tpl);
-					$('div.movielist').html(templateBuild(movieData));
+					//$('div.movielist').html(templateBuild(movieData));
+					$('div.movielist').html(templateBuild(data));
+
+					$('div.filters #include-watched').prop('checked', includeWatch);
 		  		}
 		  		else {
 					alert("Error unable " + movieData.results) 

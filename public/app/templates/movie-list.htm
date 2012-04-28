@@ -15,12 +15,12 @@
 			<input type="text" maxlength="90" id="genre" placeholder="genre(s)"/>
   		</div>
 		<div class="field-set">
-			<label>Notes</label>
-			<input type="text" maxlength="90" id="notes" placeholder="additional info about movie"/>
-  		</div>
-		<div class="field-set">
 			<label>Length</label>
-			<input type="text" maxlength="90" id="length" placeholder="movie length"/>
+			<input type="text" id="length" placeholder="minutes"/>
+  		</div>
+		<div class="field-set edit-only">
+			<input type="checkbox" id="watched"> Watched the movie</input>
+			<input type="text" id="watched-date" />
   		</div>
   	</div>
 	<div class="col2">
@@ -41,6 +41,10 @@
 				<option value="lucas">lucas</option>
 			</select>
   		</div>
+		<div class="field-set">
+			<label>Notes</label>
+			<textarea id="notes" rows="4" placeholder="more info"/>
+  		</div>
   	</div>
 
 	<input type="hidden" id="objectid" />
@@ -55,6 +59,10 @@
   </div>
 </div>
 <div>
+  <div class="filters">
+	<input type="checkbox" id="include-watched"> Include watched movies</input>
+  </div>
+
   <div class="movie row header">
 	<div class="col edit primary">&nbsp;</div>
 	<div class="col detail primary">&nbsp;</div>
@@ -62,12 +70,13 @@
 	<div class="col genre primary"><span class="sortable" sortkey="Genre">Genre</span></div>
 	<div class="col notes secondary"><span class="sortable" sortkey="Notes">Notes</span></div>
 	<div class="col votes primary">Votes</div>
-	<div class="col whofor"><span class="sortable" sortkey="WhoFor">For?</span></div>
+	<div class="col whofor primary"><span class="sortable" sortkey="WhoFor">For?</span></div>
 	<div class="col length secondary"><span class="sortable" sortkey="Length">Length</span></div>
 	<div class="col url secondary">IMDB</div>
 	<div class="col media secondary"><span class="sortable" sortkey="Media">Media</span></div>
 	<div class="col addedby"><span class="sortable" sortkey="AddedBy">Added by</span></div>
   </div>
+
   {{#results}}
   <div class="movie row data" movieid="{{id}}">
 	<div class="col edit primary"><img src="images/edit-pen.png"/></div>
@@ -88,7 +97,7 @@
 	  		{{voteshort}}
 		</span>
 	</div>
-  	<div class="col whofor"> {{WhoFor}} &nbsp;</div>
+  	<div class="col whofor primary"> {{WhoFor}} &nbsp;</div>
   	<div class="col length secondary"> {{Length}} &nbsp;</div>
 	<div class="col url secondary"> <a href='{{Url}}' target='new'>View</a>&nbsp;</div>
 	<div class="col media secondary"> {{Media}}&nbsp;</div>

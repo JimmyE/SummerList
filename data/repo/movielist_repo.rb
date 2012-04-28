@@ -10,8 +10,9 @@ class MovieListRepo
   def initialize
   end
 
-  def GetAlLSortBy(field)
-	return MovieItem.all(:order => field)
+  def GetAllSortBy(field)
+	return MovieItem.all( :order => field)
+	#return MovieItem.all( :Watched.ne => !includeWatched, :order => field)
   end
 
   def GetAll
@@ -24,7 +25,7 @@ class MovieListRepo
 
   def SaveMovie(movie)
 	 raise "movie must be a MovieItem" unless movie.kind_of? MovieItem
-	 info "Save the movie: #{movie.Title}"
+	 #info "Save the movie: #{movie.Title}"
 	 movie.save
   end
 

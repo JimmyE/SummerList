@@ -17,6 +17,7 @@ class MovieItem
   key :WhoFor,    String    #ethan, lucas or both
   key :Media,     String    # amazon, netflix, dv\
   key :Votes,     Array     #list of names
+  key :Watched,   Boolean
 
   #Not used yet
   key :Rating,  Integer

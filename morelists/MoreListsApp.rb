@@ -42,7 +42,7 @@ class MoreListsApp < Sinatra::Base
 	#@movies = repo.GetAll
 	#@movies = repo.GetAlLSortBy("Title")
 	sortField = params['orderby']
-	@movies = repo.GetAlLSortBy(sortField)
+	@movies = repo.GetAllSortBy(sortField)
 
 	baseUrl = "http://www.imdb.com/find?q="
 	@movies.each do |movie|
@@ -72,8 +72,11 @@ class MoreListsApp < Sinatra::Base
 	  mi.Streaming = params['streaming']
 	  mi.WhoFor = params['whofor']
 	  mi.Media = params['media']
+	  mi.Watched = params['watched'] 
 
-	  info "Add movie '#{mi.Title}'  Notes: #{mi.Notes}  Genre: #{mi.Genre} Added #{mi.DateAdded} Streaming: #{mi.Streaming}"
+	  mi.Votes.clear if (mi.Watched) 
+
+	  info "Add/Update movie '#{mi.Title}'  Notes: #{mi.Notes}  Genre: #{mi.Genre} Added #{mi.DateAdded} Streaming: #{mi.Streaming}"
 	  repo = MovieListRepo.new
 	  repo.SaveMovie(mi)
 
