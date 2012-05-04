@@ -349,6 +349,18 @@ function(tpl, detailTpl) {
 						if (includeWatch || mv.Watched == false || mv.Watched == undefined) { 
 						  displayMovieList.push(mv);
 						}
+
+						var dateAdded = new Date(mv.DateAdded);
+						var today = new Date();
+						var cutOffDate = new Date();
+						cutOffDate.setDate( today.getDate() - 10 ); // 10 days get 'new' flag
+						
+						mv.newmovie = 0;
+						if ( cutOffDate < dateAdded ) {
+						  mv.newmovie = 1;
+						  console.log(" new movie: " + mv.Title);
+						}
+
 				  	});
 
 					var data = {};

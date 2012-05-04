@@ -81,8 +81,11 @@
   <div class="movie row data" movieid="{{id}}">
 	<div class="col edit primary"><img src="images/edit-pen.png"/></div>
 	<div class="col detail primary">&nbsp; </div>
-	<!-- <img src="images/detail-glass.png"/></div> -->
-  	<div class="col title primary"> {{Title}}
+  	<div class="col title primary"> 
+		{{#if newmovie}}
+		<div class="new-movie">&nbsp;</div>
+		{{/if}}
+		{{Title}}
 	  <div class="col movie-info"></div>
   	</div>
   	<div class="col genre primary"> {{Genre}}&nbsp; </div>
