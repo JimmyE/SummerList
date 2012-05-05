@@ -350,7 +350,8 @@ function(tpl, detailTpl) {
 						  displayMovieList.push(mv);
 						}
 
-						var dateAdded = new Date(mv.DateAdded);
+						// convert 2012/03/01 to 2012-03-01
+						var dateAdded = new Date(mv.DateAdded.replace(/-/g, "/"));
 						var today = new Date();
 						var cutOffDate = new Date();
 						cutOffDate.setDate( today.getDate() - 10 ); // 10 days get 'new' flag
