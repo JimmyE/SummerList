@@ -13,7 +13,7 @@ function() {
 		var data = {orderby : sortBy}
 		$.ajax({
 			type: 'post',
-			url: '/morelists/movies',
+			url: '/movies/movies',
 			dataType: 'json',
 			data: data,
 			success: function(movieData) {
@@ -76,9 +76,9 @@ function() {
 	function addRemoveVote( currentuser, movieid, addVote, $voterRoll ) {
 		//var currentuser = getMovieUserId();
 		var data = { movieid: movieid, user: currentuser }
-		url = '/morelists/removevote';
+		url = '/movies/removevote';
 		if (addVote) {
-		  url = '/morelists/addvote';
+		  url = '/movies/addvote';
 		}
 
 		$.ajax({
@@ -114,7 +114,7 @@ function() {
 
 		$.ajax({
 			type: 'post',
-			url: '/morelists/addmovie',
+			url: '/movies/addmovie',
 			dataType: 'json',
 			data: data,
 			success: function(results) {
@@ -142,7 +142,7 @@ function() {
 		var data = {'movieid': movieid};
 		$.ajax({
 			type: 'get',
-			url: '/morelists/movie',
+			url: '/movies/movie',
 			dataType: 'json',
 			data: data,
 			success: function(movieData) {

@@ -25,7 +25,7 @@ class MovieItem
   key :TagList, Array
 
 #  index :Title, :unique => true
-  validates_uniqueness_of :Title,
+  #validates_uniqueness_of :Title,
 
   #def initialize(user = "", tag = "", description = "", url = "")
 	#@ParentTag = tag

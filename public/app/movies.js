@@ -123,14 +123,14 @@ function(tpl, detailTpl, movieSvc) {
 		var pwd = $("div#login #password").val();
 
 		if (userid == '' || pwd == '' ) {
-			console.log("userid and password required");
+			console.log("userid and password required new");
 			return false;
 		}
 
 		var data = { user: userid, password: pwd }
 		$.ajax({
 			type: 'post',
-			url: '/morelists/login',
+			url: '/movies/login',
 			dataType: 'json',
 			data: data,
 			success: function(result) {
